@@ -1,18 +1,48 @@
 :root {
-  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
-  --heading: system-ui, "Segoe UI", Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --purple-900: #07070f;
+  --purple-800: #0d0d1a;
 
-  font: 18px/145% var(--sans);
+  --glass-bg: rgba(20, 20, 40, 0.55);
+  --glass-bg-soft: rgba(30, 30, 60, 0.35);
+
+  --border-color: rgba(203, 193, 243, 0.15);
+
+  --accent-purple: #7c5cff;
+  --accent-purple-soft: rgba(124, 92, 255, 0.2);
+
+  --hover-bg: rgba(124, 92, 255, 0.12);
+  --active-bg: rgba(124, 92, 255, 0.25);
+
+  --text-primary: #f3eaf9;
+  --text-secondary: #a1a1b5;
+
+  --online: #22c55e;
+
+  font-family: "Poppins", sans-serif;
   letter-spacing: 0.18px;
-  color: var(--text);
-  background: var(--bg);
+  color: var(--text-primary);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center; /* centru pe verticală */
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(124, 92, 255, 0.15),
+      transparent 40%
+    ),
+    radial-gradient(circle at 80% 70%, rgba(80, 40, 200, 0.2), transparent 50%),
+    var(--purple-900);
+
+  background-attachment: fixed;
 }
