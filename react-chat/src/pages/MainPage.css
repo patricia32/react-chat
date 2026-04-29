@@ -2,6 +2,10 @@
   width: 90vw;
   max-width: 1300px;
   min-height: 90vh;
+
+  padding: 2rem;
+  box-sizing: border-box;
+
   background-color: var(--glass-bg-soft);
 
   border: 2px solid var(--border-color);

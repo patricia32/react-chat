@@ -1,0 +1,23 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+
+  border-right: 1px solid var(--border-color);
+}
+
+.menu__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.menu__header-image {
+  object-fit: contain;
+  width: 2.8rem;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+}
+
+.menu__header-name {
+  font-weight: 500;
+}
