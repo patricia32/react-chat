@@ -1,4 +1,5 @@
-import "./MainMenu.css";
+import "./MainMenu.scss";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBoxArchive } from "@fortawesome/free-solid-svg-icons/faBoxArchive";
 import {

@@ -1,23 +1,30 @@
 .area {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
+  position: relative;
+  &__wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
-  text-align: center;
-  padding: 0 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
 
-  &-icon {
-    width: 50%;
-  }
+    text-align: center;
 
-  &-title {
-    font-weight: 600;
-    font-size: x-large;
-  }
+    &-icon {
+      width: 50%;
+    }
 
-  &-text {
-    color: var(--text-secondary);
+    &-title {
+      font-weight: 600;
+      font-size: x-large;
+    }
+
+    &-text {
+      color: var(--text-secondary);
+    }
   }
 }

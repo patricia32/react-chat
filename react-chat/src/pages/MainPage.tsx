@@ -2,7 +2,7 @@ import { useState } from "react";
 import { MainArea } from "../components/mainArea/MainArea";
 import { MainMenu } from "../components/mainMenu/MainMenu";
 
-import "./MainPage.css";
+import "./MainPage.scss";
 
 export const MainPage = () => {
   const [selectedField, setSelectedField] = useState<string>("");

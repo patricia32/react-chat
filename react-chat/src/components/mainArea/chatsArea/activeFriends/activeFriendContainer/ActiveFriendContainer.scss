@@ -1,0 +1,33 @@
+.activeFriendContainer {
+  max-width: 15%;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  &-image {
+    width: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &-online {
+    position: absolute;
+    right: 0px;
+    top: 50px;
+
+    width: 14px;
+    height: 14px;
+
+    border-radius: 50%;
+    background-color: var(--online);
+  }
+
+  &-name {
+    text-align: center;
+    font-size: x-small;
+  }
+}
