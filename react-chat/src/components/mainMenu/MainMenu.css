@@ -1,6 +1,8 @@
 .menu {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+  padding-right: 2rem;
   border-right: 1px solid var(--border-color);
 }
 .menu__header {
@@ -17,4 +19,40 @@
 }
 .menu__header-name {
   font-weight: 500;
+}
+.menu__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.menu__fields__item {
+  font: inherit;
+  color: var(--text-primary);
+  background: transparent;
+  padding: 0 0 0 0.5rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+}
+.menu__fields__item-icon {
+  background-color: var(--border-color);
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+.menu__fields__item p {
+  font-size: 0.9rem;
+}
+.menu__fields__item:hover {
+  background: var(--hover-style);
+  box-shadow: var(--box-shadow);
+  border: 1px solid var(--accent-purple-soft);
+}
+.menu__fields__item:focus {
+  outline: none;
+  background-color: var(--active-bg);
+  border: 1px solid var(--accent-purple-soft);
 }/*# sourceMappingURL=MainMenu.css.map */

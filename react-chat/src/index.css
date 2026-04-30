@@ -10,13 +10,25 @@
   --accent-purple: #7c5cff;
   --accent-purple-soft: rgba(124, 92, 255, 0.2);
 
-  --hover-bg: rgba(124, 92, 255, 0.12);
+  --hover-bg: rgba(89, 80, 153, 0.2);
   --active-bg: rgba(124, 92, 255, 0.25);
 
   --text-primary: #f3eaf9;
   --text-secondary: #a1a1b5;
 
   --online: #22c55e;
+
+  --hover-style:
+    linear-gradient(rgba(20, 20, 40, 0.6), rgba(20, 20, 40, 0.6)) padding-box,
+    linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.15),
+        rgba(124, 92, 255, 0.4),
+        rgba(255, 255, 255, 0.15)
+      )
+      border-box;
+
+  --box-shadow: 0 0 10px rgba(124, 92, 255, 0.15);
 
   font-family: "Poppins", sans-serif;
   letter-spacing: 0.18px;
