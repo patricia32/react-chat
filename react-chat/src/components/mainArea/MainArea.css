@@ -1,0 +1,19 @@
+.area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 0 5rem;
+}
+.area-icon {
+  width: 50%;
+}
+.area-title {
+  font-weight: 600;
+  font-size: x-large;
+}
+.area-text {
+  color: var(--text-secondary);
+}/*# sourceMappingURL=MainArea.css.map */

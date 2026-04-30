@@ -1,0 +1,23 @@
+.area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  text-align: center;
+  padding: 0 5rem;
+
+  &-icon {
+    width: 50%;
+  }
+
+  &-title {
+    font-weight: 600;
+    font-size: x-large;
+  }
+
+  &-text {
+    color: var(--text-secondary);
+  }
+}

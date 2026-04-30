@@ -51,7 +51,7 @@
   box-shadow: var(--box-shadow);
   border: 1px solid var(--accent-purple-soft);
 }
-.menu__fields__item:focus {
+.menu__fields__item.active {
   outline: none;
   background-color: var(--active-bg);
   border: 1px solid var(--accent-purple-soft);

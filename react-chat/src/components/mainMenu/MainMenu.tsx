@@ -1,19 +1,36 @@
 import "./MainMenu.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBoxArchive } from "@fortawesome/free-solid-svg-icons/faBoxArchive";
 import {
   faPhone,
   faComment,
   faCommentDots,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-import { faBoxArchive } from "@fortawesome/free-solid-svg-icons/faBoxArchive";
 
-export const MainMenu = () => {
-  const displayFieldItem = (title: string, icon: IconDefinition) => {
+interface MainMenuProps {
+  selectedField: string;
+  setSelectedField: (value: string) => void;
+}
+export const MainMenu = ({
+  setSelectedField,
+  selectedField,
+}: MainMenuProps) => {
+  const selectField = (field: string) => {
+    if (selectedField === field) setSelectedField("");
+    else setSelectedField(field);
+  };
+
+  const displayFieldItem = (field: string, icon: IconDefinition) => {
     return (
-      <button className="menu__fields__item">
+      <button
+        onClick={() => selectField(field)}
+        className={`menu__fields__item ${
+          field === selectedField ? "active" : ""
+        }`}
+      >
         <FontAwesomeIcon icon={icon} className="menu__fields__item-icon" />
-        <p>{title}</p>
+        <p>{field}</p>
       </button>
     );
   };

@@ -61,7 +61,7 @@
       border: 1px solid var(--accent-purple-soft);
     }
 
-    &__item:focus {
+    &__item.active {
       outline: none;
       background-color: var(--active-bg);
       border: 1px solid var(--accent-purple-soft);
