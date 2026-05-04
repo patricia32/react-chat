@@ -1,10 +1,12 @@
 import "./ActiveFriendContainer.scss";
 
 interface ActiveFriendContainerProps {
+  id: string;
   name: string;
   imagePath: string;
 }
 export const ActiveFriendContainer = ({
+  id,
   name,
   imagePath,
 }: ActiveFriendContainerProps) => {
