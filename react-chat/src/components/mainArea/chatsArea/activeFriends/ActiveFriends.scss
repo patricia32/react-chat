@@ -1,8 +1,28 @@
 .activeFriends {
-  padding: 1rem;
-  border-bottom: 1px solid var(--border-color);
+  &__wrapper {
+    overflow-x: auto;
+    padding: 1.5rem 1rem 1rem 1rem;
+    border-bottom: 1px solid var(--border-color);
 
-  display: flex;
-  justify-content: flex-start;
-  gap: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    color: var(--text-secondary);
+    font-size: small;
+  }
+}
+
+.activeFriends__wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+.activeFriends__wrapper::-webkit-scrollbar-thumb {
+  background: var(--accent-purple-soft);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+.activeFriends__wrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-purple-soft);
 }

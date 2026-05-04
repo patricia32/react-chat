@@ -1,5 +1,7 @@
 .area {
   position: relative;
+  overflow-x: hidden;
+
   &__wrapper {
     position: absolute;
     top: 50%;
