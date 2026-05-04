@@ -2,10 +2,11 @@
   --purple-900: #07070f;
   --purple-800: #0d0d1a;
 
-  --glass-bg: rgba(20, 20, 40, 0.55);
+  --glass-bg: rgba(49, 49, 70, 0.4);
   --glass-bg-soft: rgba(30, 30, 60, 0.35);
 
   --border-color: rgba(203, 193, 243, 0.15);
+  --border-color-light: rgba(211, 203, 241, 0.15);
 
   --accent-purple: #7c5cff;
   --accent-purple-soft: rgba(124, 92, 255, 0.2);
