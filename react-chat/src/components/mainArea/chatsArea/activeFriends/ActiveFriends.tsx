@@ -11,7 +11,7 @@ export const ActiveFriends = ({ users }: ActiveFriendsProps) => {
       {users.length !== 0 && (
         <div className="activeFriends__wrapper">
           {users.map(({ id, name }) => (
-            <ActiveFriendContainer id={id} name={name} />
+            <ActiveFriendContainer id={id} name={name} includeName={true} />
           ))}
         </div>
       )}

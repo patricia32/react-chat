@@ -3,10 +3,12 @@ import "./ActiveFriendContainer.scss";
 interface ActiveFriendContainerProps {
   id: string;
   name: string;
+  includeName?: boolean;
 }
 export const ActiveFriendContainer = ({
   id,
   name,
+  includeName = false,
 }: ActiveFriendContainerProps) => {
   return (
     <div className="activeFriendContainer">
@@ -22,7 +24,7 @@ export const ActiveFriendContainer = ({
       </div>
 
       <span className="activeFriendContainer-online"></span>
-      <div className="activeFriendContainer-name">{name}</div>
+      {includeName && <div className="activeFriendContainer-name">{name}</div>}
     </div>
   );
 };
