@@ -1,4 +1,4 @@
-.activeFriendContainer {
+.userCard {
   position: relative;
 
   display: flex;
@@ -21,7 +21,7 @@
     }
   }
 
-  &-online {
+  &__status {
     position: absolute;
     right: 0px;
     top: 40px;
@@ -30,7 +30,14 @@
     height: 14px;
 
     border-radius: 50%;
-    background-color: var(--online);
+
+    &.active {
+      background-color: var(--online);
+    }
+
+    &.offline {
+      border: 1.9px solid gray;
+    }
   }
 
   &-name {

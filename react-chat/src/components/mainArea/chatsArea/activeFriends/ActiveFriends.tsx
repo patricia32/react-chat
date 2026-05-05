@@ -1,18 +1,20 @@
 import type { User } from "../../../../models/user";
-import { ActiveFriendContainer } from "./activeFriendContainer/ActiveFriendContainer";
+import { UserCard } from "../../userCard/UserCard";
 import "./ActiveFriends.scss";
 
 interface ActiveFriendsProps {
-  users: Pick<User, "id" | "name">[];
+  users: User[];
 }
 export const ActiveFriends = ({ users }: ActiveFriendsProps) => {
   return (
     <div className="activeFriends">
       {users.length !== 0 && (
         <div className="activeFriends__wrapper">
-          {users.map(({ id, name }) => (
-            <ActiveFriendContainer id={id} name={name} includeName={true} />
-          ))}
+          {users
+            .filter((user) => user.active)
+            .map((user) => (
+              <UserCard key={user.id} user={user} includeName={true} />
+            ))}
         </div>
       )}
     </div>
