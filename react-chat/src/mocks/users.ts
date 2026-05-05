@@ -1,5 +1,10 @@
 import type { User } from "../models/user";
 
+export const loggedUser: User = {
+  id: "0",
+  name: "Jacob Jones",
+};
+
 export const users: User[] = [
   {
     id: "1",
