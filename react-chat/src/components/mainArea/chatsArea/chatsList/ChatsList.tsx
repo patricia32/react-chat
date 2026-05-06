@@ -1,4 +1,5 @@
 import type { ChatPreviewType } from "../../../../models/chat";
+import { EmptyState } from "../../emptyState/EmptyState";
 import { ChatPreview } from "./chatPreview/ChatPreview";
 
 import "./ChatsList.scss";
@@ -10,7 +11,7 @@ export const ChatsList = ({ chats }: ChatsListProps) => {
   return (
     <div className="chatsList">
       {chats.length === 0 ? (
-        <div>No chats</div>
+        <EmptyState />
       ) : (
         <div className="chatsList__wrapper">
           {chats.map((chat) => (
