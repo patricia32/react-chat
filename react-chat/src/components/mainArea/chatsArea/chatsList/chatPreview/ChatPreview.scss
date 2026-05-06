@@ -16,7 +16,7 @@
     &__left {
       &-name {
         font-size: smaller;
-        color: var(--texst-primary);
+        color: var(--text-primary);
       }
 
       &-message {
@@ -24,12 +24,13 @@
         color: var(--text-secondary);
       }
     }
-
-    &__right {
-      height: 1rem;
-      width: 1rem;
-      border-radius: 50%;
-      background-color: aqua;
-    }
   }
+}
+.highlight-name {
+  font-weight: bold;
+  color: var(--highlight);
+}
+
+.highlight-message {
+  color: var(--highlight);
 }

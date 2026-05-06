@@ -50,6 +50,7 @@ export const chats: Chat[] = [
     ],
     lastMessageContent: "Sure, sounds good!",
     lastMessageIsRead: true,
+    openedChat: true,
   },
   {
     chatId: "chat-2",
@@ -100,6 +101,7 @@ export const chats: Chat[] = [
     ],
     lastMessageContent: "Got it, thanks!",
     lastMessageIsRead: false,
+    openedChat: false,
   },
   {
     chatId: "chat-3",
@@ -143,6 +145,7 @@ export const chats: Chat[] = [
     ],
     lastMessageContent: "Cool, see you there 💪",
     lastMessageIsRead: true,
+    openedChat: true,
   },
   {
     chatId: "chat-4",
@@ -179,6 +182,7 @@ export const chats: Chat[] = [
     ],
     lastMessageContent: "Best match this season",
     lastMessageIsRead: false,
+    openedChat: true,
   },
   {
     chatId: "chat-5",
@@ -222,5 +226,6 @@ export const chats: Chat[] = [
     ],
     lastMessageContent: "Nice, enjoy it!",
     lastMessageIsRead: true,
+    openedChat: true,
   },
 ];

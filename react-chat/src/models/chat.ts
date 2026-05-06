@@ -12,9 +12,14 @@ export interface Chat {
   messages: Message[];
   lastMessageContent: string;
   lastMessageIsRead: boolean;
+  openedChat: boolean;
 }
 
 export type ChatPreviewType = Pick<
   Chat,
-  "chatId" | "userIds" | "lastMessageContent" | "lastMessageIsRead"
+  | "chatId"
+  | "userIds"
+  | "lastMessageContent"
+  | "lastMessageIsRead"
+  | "openedChat"
 >;

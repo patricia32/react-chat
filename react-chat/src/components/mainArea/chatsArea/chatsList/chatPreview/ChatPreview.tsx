@@ -18,9 +18,15 @@ export const ChatPreview = ({ chat }: ChatPreviewProps) => {
     <div className="chatPreview">
       <UserCard user={sender} />
       <div className="chatPreview__details">
-        <div className="chatPreview__details__left">
-          <div className="chatPreview__details__left-name">{sender.name}</div>
-          <div className="chatPreview__details__left-message">
+        <div className={`chatPreview__details__left `}>
+          <div
+            className={`chatPreview__details__left-name ${!chat.openedChat && "highlight-name"}`}
+          >
+            {sender.name}
+          </div>
+          <div
+            className={`chatPreview__details__left-message ${!chat.openedChat && "highlight-message"}`}
+          >
             {chat.lastMessageContent}
           </div>
         </div>
