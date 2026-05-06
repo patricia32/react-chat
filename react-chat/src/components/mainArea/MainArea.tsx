@@ -4,12 +4,19 @@ import "./MainArea.scss";
 
 interface MainAreaProps {
   selectedField: string;
+  setSelectedField: (value: string) => void;
 }
-export const MainArea = ({ selectedField }: MainAreaProps) => {
+export const MainArea = ({
+  selectedField,
+  setSelectedField,
+}: MainAreaProps) => {
   const contentSwitch = () => {
-    switch (selectedField) {
-      case "Chats":
-        return <ChatsArea />;
+    switch (true) {
+      case selectedField === "Chats":
+        return <ChatsArea setSelectedField={setSelectedField} />;
+      case /^chat:{\/[A-Za-z0-9]+$|/.test(selectedField):
+        console.log(selectedField + "heh");
+        return <EmptyState />;
       default:
         return <EmptyState />;
     }

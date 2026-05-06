@@ -13,7 +13,10 @@ export const MainPage = () => {
         selectedField={selectedField}
         setSelectedField={setSelectedField}
       />
-      <MainArea selectedField={selectedField} />
+      <MainArea
+        selectedField={selectedField}
+        setSelectedField={setSelectedField}
+      />
     </div>
   );
 };

@@ -6,16 +6,27 @@ import { UserSeenBullet } from "../../../userSeenBullet/UserSeenBullet";
 
 interface ChatPreviewProps {
   chat: ChatPreviewType;
+  setSelectedField: (value: string) => void;
 }
-export const ChatPreview = ({ chat }: ChatPreviewProps) => {
+export const ChatPreview = ({ chat, setSelectedField }: ChatPreviewProps) => {
   const otherUserId = chat.userIds.find((id) => id !== loggedUser.id);
 
   const sender = users.find((user) => user.id === otherUserId);
 
   if (!sender) return null;
 
+  const redirectToChat = (userId: string) => {
+    if (!userId) return;
+    setSelectedField(`chat/:{${userId}}`);
+  };
+
   return (
-    <div className="chatPreview">
+    <button
+      className="chatPreview"
+      onClick={() => {
+        redirectToChat(sender.id);
+      }}
+    >
       <UserCard user={sender} />
       <div className="chatPreview__details">
         <div className={`chatPreview__details__left `}>
@@ -32,6 +43,6 @@ export const ChatPreview = ({ chat }: ChatPreviewProps) => {
         </div>
         {chat.lastMessageIsRead && <UserSeenBullet userId={sender.id} />}
       </div>
-    </div>
+    </button>
   );
 };

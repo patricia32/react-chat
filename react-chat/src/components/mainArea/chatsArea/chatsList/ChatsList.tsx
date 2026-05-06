@@ -6,8 +6,9 @@ import "./ChatsList.scss";
 
 interface ChatsListProps {
   chats: ChatPreviewType[];
+  setSelectedField: (value: string) => void;
 }
-export const ChatsList = ({ chats }: ChatsListProps) => {
+export const ChatsList = ({ chats, setSelectedField }: ChatsListProps) => {
   return (
     <div className="chatsList">
       {chats.length === 0 ? (
@@ -15,7 +16,11 @@ export const ChatsList = ({ chats }: ChatsListProps) => {
       ) : (
         <div className="chatsList__wrapper">
           {chats.map((chat) => (
-            <ChatPreview key={chat.chatId} chat={chat} />
+            <ChatPreview
+              key={chat.chatId}
+              chat={chat}
+              setSelectedField={setSelectedField}
+            />
           ))}
         </div>
       )}

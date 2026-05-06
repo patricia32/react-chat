@@ -6,12 +6,15 @@ import { ChatsList } from "./chatsList/ChatsList";
 import { SearchBar } from "./searchBar/SearchBar";
 import { ActiveFriends } from "./activeFriends/ActiveFriends";
 
-export const ChatsArea = () => {
+interface ChatsAreaProps {
+  setSelectedField: (value: string) => void;
+}
+export const ChatsArea = ({ setSelectedField }: ChatsAreaProps) => {
   return (
     <div className="chatsArea">
       <SearchBar />
       <ActiveFriends users={users} />
-      <ChatsList chats={chats} />
+      <ChatsList chats={chats} setSelectedField={setSelectedField} />
     </div>
   );
 };
