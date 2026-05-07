@@ -33,11 +33,6 @@ export const ChatWindow = ({ chatId }: ChatWindowProps) => {
       <div className="chatWindow__header">
         <button className="chatWindow__header__back">
           <Icon icon={faArrowLeft} />
-          {/* <FontAwesomeIcon
-            icon={faArrowLeft}
-            // className="chatWindow__header__back-icon"
-          /> */}
-          {/* <ArrowBackIcon/> */}
         </button>
         <div className="chatWindow__header__wrapper">
           <div className="chatWindow__header__wrapper__image">
