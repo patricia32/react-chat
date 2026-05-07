@@ -15,9 +15,9 @@ export const ChatPreview = ({ chat, setSelectedField }: ChatPreviewProps) => {
 
   if (!sender) return null;
 
-  const redirectToChat = (userId: string) => {
-    if (!userId) return;
-    setSelectedField(`chat/:{${userId}}`);
+  const redirectToChat = (chatId: string) => {
+    if (!chatId) return;
+    setSelectedField(`chat/:${chatId}`);
   };
 
   return (

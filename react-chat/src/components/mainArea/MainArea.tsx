@@ -1,4 +1,5 @@
 import { ChatsArea } from "./chatsArea/ChatsArea";
+import { ChatWindow } from "./chatsArea/chatWindow/ChatWindow";
 import { EmptyState } from "./emptyState/EmptyState";
 import "./MainArea.scss";
 
@@ -14,9 +15,12 @@ export const MainArea = ({
     switch (true) {
       case selectedField === "Chats":
         return <ChatsArea setSelectedField={setSelectedField} />;
-      case /^chat:{\/[A-Za-z0-9]+$|/.test(selectedField):
-        console.log(selectedField + "heh");
-        return <EmptyState />;
+      case /^chat\/:[^:]+$/.test(selectedField): {
+        const chatId: string = selectedField.split("/:")[1] ?? "";
+
+        if (chatId) return <ChatWindow chatId={chatId} />;
+        return;
+      }
       default:
         return <EmptyState />;
     }
