@@ -1,6 +1,5 @@
 import "./MainMenu.scss";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBoxArchive } from "@fortawesome/free-solid-svg-icons/faBoxArchive";
 import {
   faPhone,
@@ -8,6 +7,7 @@ import {
   faCommentDots,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
+import { Icon } from "../../utils/icon";
 
 interface MainMenuProps {
   selectedField: string;
@@ -30,7 +30,7 @@ export const MainMenu = ({
           field === selectedField ? "active" : ""
         }`}
       >
-        <FontAwesomeIcon icon={icon} className="menu__fields__item-icon" />
+        <Icon icon={icon} />
         <p>{field}</p>
       </button>
     );

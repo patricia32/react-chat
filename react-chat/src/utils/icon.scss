@@ -1,0 +1,17 @@
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 2.2rem;
+  height: 2.2rem;
+  min-width: 2.2rem;
+
+  border-radius: 50%;
+  background-color: var(--border-color);
+
+  &-item {
+    font-size: medium;
+    color: var(--text-primary) !important;
+  }
+}
