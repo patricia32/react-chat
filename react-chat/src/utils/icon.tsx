@@ -4,11 +4,12 @@ import "./Icon.scss";
 
 interface IconProps {
   icon: IconDefinition;
+  onClick?: () => void;
 }
-export const Icon = ({ icon }: IconProps) => {
+export const Icon = ({ icon, onClick = () => {} }: IconProps) => {
   return (
-    <div className="icon">
+    <button className="icon" onClick={() => onClick()}>
       <FontAwesomeIcon icon={icon} className="icon-item" />
-    </div>
+    </button>
   );
 };

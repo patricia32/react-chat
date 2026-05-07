@@ -18,7 +18,10 @@ export const MainArea = ({
       case /^chat\/:[^:]+$/.test(selectedField): {
         const chatId: string = selectedField.split("/:")[1] ?? "";
 
-        if (chatId) return <ChatWindow chatId={chatId} />;
+        if (chatId)
+          return (
+            <ChatWindow chatId={chatId} setSelectedField={setSelectedField} />
+          );
         return;
       }
       default:

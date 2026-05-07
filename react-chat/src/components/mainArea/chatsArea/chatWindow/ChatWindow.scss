@@ -7,6 +7,7 @@
 
     display: flex;
     align-items: center;
+    gap: 0.5rem;
 
     &__back {
       border: none;
@@ -18,15 +19,18 @@
         background-color: pink;
       }
     }
+
     &__wrapper {
       width: 100%;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 1rem;
 
       &__image {
-        width: 2.8rem;
-        height: 2.8rem;
+        width: 3rem;
+        height: 3rem;
         overflow: hidden;
         border-radius: 50%;
 
@@ -36,6 +40,35 @@
           object-fit: cover;
         }
       }
+
+      &__user {
+        flex: 1;
+        font-size: small;
+
+        &-name {
+          font-weight: bold;
+          color: var(--text-primary);
+        }
+
+        &__status {
+          display: flex;
+          align-items: center;
+          color: var(--text-secondary);
+        }
+      }
+
+      &__actions {
+        display: flex;
+        gap: 0.5rem;
+      }
     }
   }
+}
+.onlineBullet {
+  width: 5px;
+  height: 5px;
+  margin-right: 0.5rem;
+
+  border-radius: 50%;
+  background-color: var(--online);
 }

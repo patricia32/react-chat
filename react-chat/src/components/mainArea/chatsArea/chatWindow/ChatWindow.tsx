@@ -6,12 +6,19 @@ import { getSecondUser } from "../../../../utils/functions";
 
 import type { Chat } from "../../../../models/chat";
 import type { User } from "../../../../models/user";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faPhone,
+  faVideo,
+  faInfo,
+} from "@fortawesome/free-solid-svg-icons";
+
 import { Icon } from "../../../../utils/icon";
 interface ChatWindowProps {
   chatId: string;
+  setSelectedField: (value: string) => void;
 }
-export const ChatWindow = ({ chatId }: ChatWindowProps) => {
+export const ChatWindow = ({ chatId, setSelectedField }: ChatWindowProps) => {
   const [chat, setChat] = useState<Chat>();
   const [secondUser, setSecondUser] = useState<User>();
 
@@ -28,21 +35,42 @@ export const ChatWindow = ({ chatId }: ChatWindowProps) => {
 
   if (!chat || !secondUser) return;
 
+  const goBack = () => {
+    setSelectedField("Chats");
+  };
   return (
     <div className="chatWindow">
       <div className="chatWindow__header">
-        <button className="chatWindow__header__back">
-          <Icon icon={faArrowLeft} />
-        </button>
+        <Icon
+          icon={faArrowLeft}
+          onClick={() => {
+            goBack();
+          }}
+        />
         <div className="chatWindow__header__wrapper">
           <div className="chatWindow__header__wrapper__image">
             <img
               src={`usersPhotos/${secondUser.id}.png`}
+              onError={(e) => {
+                e.currentTarget.src = "/usersPhotos/default.png";
+              }}
               alt={`${secondUser.name} photo`}
             />
           </div>
-          <div className="chatWindow__header__wrapper__user">name</div>
-          <div className="chatWindow__header__wrapper__actions">call</div>
+          <div className="chatWindow__header__wrapper__user">
+            <div className="chatWindow__header__wrapper__user-name">
+              {secondUser.name}
+            </div>
+            <div className="chatWindow__header__wrapper__user__status">
+              <div className={secondUser.active ? "onlineBullet" : ""} />
+              <span>{secondUser.active ? "Online" : "Offline"}</span>
+            </div>
+          </div>
+          <div className="chatWindow__header__wrapper__actions">
+            <Icon icon={faPhone} />
+            <Icon icon={faVideo} />
+            <Icon icon={faInfo} />
+          </div>
         </div>
       </div>
     </div>
