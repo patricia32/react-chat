@@ -33,7 +33,7 @@ export const MainMenu = ({
       >
         <div className="icon">
           <FontAwesomeIcon icon={icon} className="icon-item" />
-        </div>{" "}
+        </div>
         <p>{field}</p>
       </button>
     );

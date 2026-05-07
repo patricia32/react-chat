@@ -1,0 +1,17 @@
+.message {
+  padding: 1rem;
+  border-radius: 24px;
+
+  font-size: 0.8rem;
+}
+
+.left {
+  align-self: start;
+  border: 1px solid var(--border-color-medium);
+  background-color: var(--glass-bg);
+}
+.right {
+  align-self: end;
+  background-color: var(--active-bg);
+  border: 1px solid var(--accent-purple-soft);
+}

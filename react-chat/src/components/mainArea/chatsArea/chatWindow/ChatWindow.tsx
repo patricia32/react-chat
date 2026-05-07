@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Icon } from "../../../../utils/icon";
+import { MessageBox } from "./MessageBox";
 interface ChatWindowProps {
   chatId: string;
   setSelectedField: (value: string) => void;
@@ -72,6 +73,11 @@ export const ChatWindow = ({ chatId, setSelectedField }: ChatWindowProps) => {
             <Icon icon={faInfo} />
           </div>
         </div>
+      </div>
+      <div className="chatWindow__messages">
+        {chat.messages.map((message) => (
+          <MessageBox key={message.messageId} message={message} />
+        ))}
       </div>
     </div>
   );
