@@ -1,19 +1,17 @@
-import type { ChatPreviewType } from "../../../../../models/chat";
-import { loggedUser, users } from "../../../../../mocks/users";
 import "./ChatPreview.scss";
+import type { ChatPreviewType } from "../../../../../models/chat";
 import { UserCard } from "../../../userCard/UserCard";
 import { UserSeenBullet } from "../../../userSeenBullet/UserSeenBullet";
+import { getSecondUser } from "../../../../../utils/functions";
 
 interface ChatPreviewProps {
   chat: ChatPreviewType;
   setSelectedField: (value: string) => void;
 }
 export const ChatPreview = ({ chat, setSelectedField }: ChatPreviewProps) => {
-  const otherUserId = chat.userIds.find((id) => id !== loggedUser.id);
+  const secondUser = getSecondUser(chat.userIds);
 
-  const sender = users.find((user) => user.id === otherUserId);
-
-  if (!sender) return null;
+  if (!secondUser) return null;
 
   const redirectToChat = (chatId: string) => {
     if (!chatId) return;
@@ -24,16 +22,16 @@ export const ChatPreview = ({ chat, setSelectedField }: ChatPreviewProps) => {
     <button
       className="chatPreview"
       onClick={() => {
-        redirectToChat(sender.id);
+        redirectToChat(chat.chatId);
       }}
     >
-      <UserCard user={sender} />
+      <UserCard user={secondUser} />
       <div className="chatPreview__details">
         <div className={`chatPreview__details__left `}>
           <div
             className={`chatPreview__details__left-name ${!chat.openedChat && "highlight-name"}`}
           >
-            {sender.name}
+            {secondUser.name}
           </div>
           <div
             className={`chatPreview__details__left-message ${!chat.openedChat && "highlight-message"}`}
@@ -41,7 +39,7 @@ export const ChatPreview = ({ chat, setSelectedField }: ChatPreviewProps) => {
             {chat.lastMessageContent}
           </div>
         </div>
-        {chat.lastMessageIsRead && <UserSeenBullet userId={sender.id} />}
+        {chat.lastMessageIsRead && <UserSeenBullet userId={secondUser.id} />}
       </div>
     </button>
   );
