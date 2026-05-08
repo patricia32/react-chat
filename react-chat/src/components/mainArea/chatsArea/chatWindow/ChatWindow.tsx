@@ -39,6 +39,7 @@ export const ChatWindow = ({ chatId, setSelectedField }: ChatWindowProps) => {
   const goBack = () => {
     setSelectedField("Chats");
   };
+
   return (
     <div className="chatWindow">
       <div className="chatWindow__header">
