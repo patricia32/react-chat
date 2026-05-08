@@ -13,8 +13,9 @@ import {
   faInfo,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { Icon } from "../../../../utils/icon";
+import { Icon } from "../../../../utils/Icon";
 import { MessageBox } from "./MessageBox";
+import { SendMessage } from "../../../sendMessage/SendMessage";
 interface ChatWindowProps {
   chatId: string;
   setSelectedField: (value: string) => void;
@@ -79,6 +80,9 @@ export const ChatWindow = ({ chatId, setSelectedField }: ChatWindowProps) => {
         {chat.messages.map((message) => (
           <MessageBox key={message.messageId} message={message} />
         ))}
+      </div>
+      <div className="chatWindow__send">
+        <SendMessage />
       </div>
     </div>
   );

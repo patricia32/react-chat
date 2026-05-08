@@ -1,0 +1,71 @@
+.sendMessage {
+  width: 100%;
+  padding: 1.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  border-top: 1px solid var(--border-color);
+
+  textarea {
+    width: 80%;
+
+    min-height: 3.2rem;
+    max-height: 10rem;
+
+    resize: vertical;
+    overflow: auto;
+
+    padding: 14px 16px;
+    box-sizing: border-box;
+
+    outline: none;
+    border-radius: 18px;
+    border: 1px solid var(--border-color-medium);
+
+    font: inherit;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    background-color: var(--glass-bg);
+  }
+
+  textarea::placeholder {
+    color: var(--text-secondary);
+  }
+
+  textarea::-webkit-scrollbar {
+    width: 6px;
+    padding-top: 5px;
+  }
+
+  textarea::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 8px;
+  }
+
+  textarea::-webkit-scrollbar-thumb {
+    background: var(--accent-purple-soft);
+    border-radius: 999px;
+  }
+
+  button {
+    width: 20%;
+    height: 3.2rem;
+
+    border: none;
+    outline: none;
+    border-radius: 18px;
+    cursor: pointer;
+
+    font: inherit;
+    color: var(--text-primary);
+    background-color: var(--accent-purple);
+
+    transition: all 0.3s ease-in-out;
+  }
+
+  button:hover {
+    background-color: var(--highlight);
+  }
+}
