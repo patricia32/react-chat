@@ -1,4 +1,6 @@
 .area {
   position: relative;
-  overflow-x: hidden;
+
+  height: 100%;
+  min-height: 0;
 }
