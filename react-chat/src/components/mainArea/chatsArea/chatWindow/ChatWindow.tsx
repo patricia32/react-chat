@@ -1,7 +1,6 @@
 import "./ChatWindow.scss";
 
 import { useEffect, useState } from "react";
-import { chats } from "../../../../mocks/chats";
 import { getSecondUser } from "../../../../utils/functions";
 
 import type { Chat } from "../../../../models/chat";
@@ -16,6 +15,8 @@ import {
 import { Icon } from "../../../../utils/Icon";
 import { MessageBox } from "./MessageBox";
 import { SendMessage } from "../../../sendMessage/SendMessage";
+import { getChatByID, sendMessageAPI } from "../../../../APIs/apis";
+
 interface ChatWindowProps {
   chatId: string;
   setSelectedField: (value: string) => void;
@@ -23,16 +24,24 @@ interface ChatWindowProps {
 export const ChatWindow = ({ chatId, setSelectedField }: ChatWindowProps) => {
   const [chat, setChat] = useState<Chat>();
   const [secondUser, setSecondUser] = useState<User>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const func = () => {
-      const foundChat = chats.find((chat) => chat.chatId === chatId);
-      if (foundChat) {
-        setChat(foundChat);
-        setSecondUser(getSecondUser(foundChat.userIds));
-      } else return;
+    const fetchChat = () => {
+      setLoading(true);
+      getChatByID(chatId)
+        .then((data) => {
+          setChat(data);
+          setSecondUser(getSecondUser(data.userIds));
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     };
-    func();
+    fetchChat();
   }, [chatId]);
 
   if (!chat || !secondUser) return;
@@ -40,6 +49,12 @@ export const ChatWindow = ({ chatId, setSelectedField }: ChatWindowProps) => {
   const goBack = () => {
     setSelectedField("Chats");
   };
+
+  const onSend = (textareaInput: string) => {
+    sendMessageAPI(textareaInput, chat.chatId);
+  };
+
+  if (loading) return <div>Loading</div>;
 
   return (
     <div className="chatWindow">
@@ -82,7 +97,7 @@ export const ChatWindow = ({ chatId, setSelectedField }: ChatWindowProps) => {
         ))}
       </div>
       <div className="chatWindow__send">
-        <SendMessage />
+        <SendMessage onSend={onSend} />
       </div>
     </div>
   );

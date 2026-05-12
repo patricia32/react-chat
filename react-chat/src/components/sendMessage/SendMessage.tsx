@@ -1,12 +1,19 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import "./SendMessage.scss";
 
-export const SendMessage = () => {
+interface SendMessageProps {
+  onSend: (value: string) => void;
+}
+export const SendMessage = ({ onSend }: SendMessageProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [textareaInput, setTextareaInput] = useState("");
 
   return (
     <div className="sendMessage">
       <textarea
+        onChange={(e) => {
+          setTextareaInput(e.target.value);
+        }}
         placeholder="Send a message..."
         rows={1}
         ref={textareaRef}
@@ -16,7 +23,13 @@ export const SendMessage = () => {
           el.style.height = Math.min(el.scrollHeight, 200) + "px";
         }}
       />
-      <button>Send</button>
+      <button
+        onClick={() => {
+          onSend(textareaInput);
+        }}
+      >
+        Send
+      </button>
     </div>
   );
 };
