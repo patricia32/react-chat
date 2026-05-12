@@ -1,4 +1,4 @@
-import { loggedUser } from "../mocks/users";
+import { loggedUser } from "../mocks/loggedUser";
 import type { Chat, ChatPreviewType, Message } from "../models/chat";
 
 export async function getChatPreviews(): Promise<ChatPreviewType[]> {

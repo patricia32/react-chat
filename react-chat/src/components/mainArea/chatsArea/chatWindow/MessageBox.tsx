@@ -1,7 +1,7 @@
 import "./MessageBox.scss";
 
 import type { Message } from "../../../../models/chat";
-import { loggedUser } from "../../../../mocks/users";
+import { loggedUser } from "../../../../mocks/loggedUser";
 
 interface MessageProps {
   message: Message;

@@ -1,5 +1,3 @@
-import { users } from "../../../mocks/users";
-
 import "./ChatsArea.scss";
 import { ChatsList } from "./chatsList/ChatsList";
 import { SearchBar } from "./searchBar/SearchBar";
@@ -7,6 +5,7 @@ import { ActiveFriends } from "./activeFriends/ActiveFriends";
 import { useEffect, useState } from "react";
 import type { ChatPreviewType } from "../../../models/chat";
 import { getChatPreviews } from "../../../APIs/apis";
+import { users } from "../../../mocks/users";
 
 interface ChatsAreaProps {
   setSelectedField: (value: string) => void;

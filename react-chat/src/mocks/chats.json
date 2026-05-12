@@ -68,9 +68,23 @@
         "content": "ok",
         "createdAt": "2026-05-12T11:41:32.170Z",
         "isRead": false
+      },
+      {
+        "messageId": "m-10",
+        "senderId": "0",
+        "content": "binee",
+        "createdAt": "2026-05-12T11:47:34.628Z",
+        "isRead": false
+      },
+      {
+        "messageId": "m-11",
+        "senderId": "0",
+        "content": "binee",
+        "createdAt": "2026-05-12T11:47:36.182Z",
+        "isRead": false
       }
     ],
-    "lastMessageContent": "ok",
+    "lastMessageContent": "binee",
     "lastMessageIsRead": false,
     "openedChat": true
   },

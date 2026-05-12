@@ -1,4 +1,5 @@
-import { loggedUser, users } from "../mocks/users";
+import { loggedUser } from "../mocks/loggedUser";
+import { users } from "../mocks/users";
 import type { User } from "../models/user";
 
 export const getSecondUser = (userIds: string[]): User => {
