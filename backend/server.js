@@ -14,11 +14,9 @@ const CHAT_FILE = path.join(
 const PORT = 3000;
 
 const app = express();
-
 app.use(express.json());
 
 const allowOrigin = "*";
-
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", allowOrigin);
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
@@ -108,8 +106,6 @@ app.post("/sendMessage/:chatId", async (req, res) => {
 
   try {
     const chats = await readChatData();
-    console.log(chats);
-
     const chat = chats.find((c) => c.chatId === chatId);
 
     if (!chat) {

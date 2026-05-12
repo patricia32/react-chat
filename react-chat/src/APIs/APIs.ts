@@ -1,5 +1,5 @@
 import { loggedUser } from "../mocks/users";
-import type { Chat, ChatPreviewType } from "../models/chat";
+import type { Chat, ChatPreviewType, Message } from "../models/chat";
 
 export async function getChatPreviews(): Promise<ChatPreviewType[]> {
   const response = await fetch("http://localhost:3000/chatPreviews");
@@ -14,26 +14,21 @@ export async function getChatByID(chatId: string): Promise<Chat> {
   if (!response.ok) throw new Error("Could not fetch chat data");
 
   const data: Chat = await response.json();
-  console.log(data);
   return data;
 }
 
-export const sendMessageAPI = async (text: string, chatId: string) => {
-  try {
-    const response = await fetch(
-      `http://localhost:3000/sendMessage/${chatId}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          senderId: loggedUser.id,
-          text,
-        }),
-      },
-    );
-    const data = await response.json();
-    console.log(data);
-  } catch (err) {
-    console.log(err);
-  }
+export const sendMessageAPI = async (
+  text: string,
+  chatId: string,
+): Promise<Message> => {
+  const response = await fetch(`http://localhost:3000/sendMessage/${chatId}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      senderId: loggedUser.id,
+      text,
+    }),
+  });
+  const data: Message = await response.json();
+  return data;
 };
