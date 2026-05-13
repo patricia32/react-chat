@@ -1,9 +1,19 @@
+import { getUserByIdAPI } from "../APIs/APIs";
 import { loggedUser } from "../mocks/loggedUser";
-import { users } from "../mocks/users";
 import type { User } from "../models/user";
 
-export const getSecondUser = (userIds: string[]): User => {
+export const getSecondUser = async (
+  userIds: string[],
+): Promise<User | null> => {
   const otherUserId = userIds.find((id) => id !== loggedUser.id);
-  const secondUser = users.find((user) => user.id === otherUserId);
-  return secondUser as User;
+
+  if (!otherUserId) return null;
+
+  try {
+    const data = await getUserByIdAPI(otherUserId);
+    return data as User;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
 };

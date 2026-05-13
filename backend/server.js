@@ -10,6 +10,14 @@ const CHAT_FILE = path.join(
   "mocks",
   "chats.json",
 );
+const USER_FILE = path.join(
+  __dirname,
+  "..",
+  "react-chat",
+  "src",
+  "mocks",
+  "users.json",
+);
 
 const PORT = 3000;
 
@@ -38,12 +46,50 @@ async function writeChatData(data) {
   await fs.writeFile(CHAT_FILE, JSON.stringify(data, null, 2));
 }
 
+async function readUsersData() {
+  const raw = await fs.readFile(USER_FILE, "utf-8");
+  return JSON.parse(raw);
+}
+
+async function writeUsersData(data) {
+  await fs.writeFile(USER_FILE, JSON.stringify(data, null, 2));
+}
+
 function validateMessageInput(senderId, text) {
   return {
     normalizedSenderId: String(senderId || "").trim(),
     normalizedText: String(text || "").trim(),
   };
 }
+
+app.get("/getUserById/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const users = await readUsersData();
+    const userById = users.filter((user) => user.id === userId);
+    res.status(200).json(userById[0]);
+  } catch (error) {
+    console.error(`Failed to fetch user with id ${userId}`, error);
+
+    res.status(500).json({
+      error: `Failed to fetch user with id ${userId}.`,
+    });
+  }
+});
+
+app.get("/getActiveUsers", async (req, res) => {
+  try {
+    const users = await readUsersData();
+    const activeUsers = users.filter((user) => user.active);
+    res.status(200).json(activeUsers);
+  } catch (error) {
+    console.error("Failed to fetch users", error);
+
+    res.status(500).json({
+      error: "Unable to fetch users.",
+    });
+  }
+});
 
 app.get("/chat/:chatId", async (req, res) => {
   try {

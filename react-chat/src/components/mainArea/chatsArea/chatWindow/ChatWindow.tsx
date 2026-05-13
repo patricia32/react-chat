@@ -15,7 +15,7 @@ import {
 import { Icon } from "../../../../utils/Icon";
 import { MessageBox } from "./MessageBox";
 import { SendMessage } from "../../../sendMessage/SendMessage";
-import { getChatByID, sendMessageAPI } from "../../../../APIs/apis";
+import { getChatByID, sendMessageAPI } from "../../../../APIs/APIs";
 
 interface ChatWindowProps {
   chatId: string;
@@ -27,12 +27,15 @@ export const ChatWindow = ({ chatId, setSelectedField }: ChatWindowProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchChat = () => {
+    const fetchChat = async () => {
       setLoading(true);
+
       getChatByID(chatId)
-        .then((data) => {
+        .then(async (data) => {
           setChat(data);
-          setSecondUser(getSecondUser(data.userIds));
+
+          const secondUserData = await getSecondUser(data.userIds);
+          if (secondUserData) setSecondUser(secondUserData);
         })
         .catch((err) => {
           console.log(err);
@@ -41,6 +44,7 @@ export const ChatWindow = ({ chatId, setSelectedField }: ChatWindowProps) => {
           setLoading(false);
         });
     };
+
     fetchChat();
   }, [chatId]);
 

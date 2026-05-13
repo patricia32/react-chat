@@ -1,12 +1,29 @@
 import { loggedUser } from "../mocks/loggedUser";
 import type { Chat, ChatPreviewType, Message } from "../models/chat";
+import type { User } from "../models/user";
+
+export async function getUserByIdAPI(userId: string): Promise<User> {
+  const response = await fetch(`http://localhost:3000/getUserById/${userId}`);
+  if (!response.ok) throw new Error(`Could not fetch user with id ${userId}`);
+
+  const userByIdData: User = await response.json();
+  return userByIdData;
+}
+
+export async function getActiveUsers(): Promise<User[]> {
+  const response = await fetch("http://localhost:3000/getActiveUsers");
+  if (!response.ok) throw new Error("Could not fetch active users");
+
+  const activeUsersData: User[] = await response.json();
+  return activeUsersData;
+}
 
 export async function getChatPreviews(): Promise<ChatPreviewType[]> {
   const response = await fetch("http://localhost:3000/chatPreviews");
   if (!response.ok) throw new Error("Could not fetch chat previews");
 
-  const data: ChatPreviewType[] = await response.json();
-  return data;
+  const chatPreviewsData: ChatPreviewType[] = await response.json();
+  return chatPreviewsData;
 }
 
 export async function getChatByID(chatId: string): Promise<Chat> {
