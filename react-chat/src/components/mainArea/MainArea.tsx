@@ -1,6 +1,6 @@
 import { ChatsArea } from "./chatsArea/ChatsArea";
 import { ChatWindow } from "./chatsArea/chatWindow/ChatWindow";
-import { EmptyState } from "./emptyState/EmptyState";
+import { InfoArea } from "./infoArea/InfoArea";
 import "./MainArea.scss";
 
 interface MainAreaProps {
@@ -25,7 +25,13 @@ export const MainArea = ({
         return;
       }
       default:
-        return <EmptyState />;
+        return (
+          <InfoArea
+            imagePath="areaIcon.png"
+            title="Welcome to your messages!"
+            content=" Select a chat or start a new conversation to see your messages here"
+          />
+        );
     }
   };
 

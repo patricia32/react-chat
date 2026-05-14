@@ -16,6 +16,7 @@ import { Icon } from "../../../../utils/Icon";
 import { SendMessage } from "../../../sendMessage/SendMessage";
 import { getChatByID, sendMessageAPI } from "../../../../APIs/APIs";
 import { MessagesArea } from "./MessagesArea";
+import { InfoArea } from "../../infoArea/InfoArea";
 
 interface ChatWindowProps {
   chatId: string;
@@ -23,12 +24,14 @@ interface ChatWindowProps {
 }
 export const ChatWindow = ({ chatId, setSelectedField }: ChatWindowProps) => {
   const [chat, setChat] = useState<Chat>();
-  const [secondUser, setSecondUser] = useState<User>();
   const [loading, setLoading] = useState(true);
+  const [chatError, setChatError] = useState<boolean>(false);
+  const [secondUser, setSecondUser] = useState<User>();
 
   useEffect(() => {
     const fetchChat = async () => {
       setLoading(true);
+      setChatError(false);
 
       getChatByID(chatId)
         .then(async (data) => {
@@ -37,8 +40,8 @@ export const ChatWindow = ({ chatId, setSelectedField }: ChatWindowProps) => {
           const secondUserData = await getSecondUser(data.userIds);
           if (secondUserData) setSecondUser(secondUserData);
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          setChatError(true);
         })
         .finally(() => {
           setLoading(false);
@@ -48,57 +51,72 @@ export const ChatWindow = ({ chatId, setSelectedField }: ChatWindowProps) => {
     fetchChat();
   }, [chatId]);
 
-  if (!chat || !secondUser) return;
-
   const goBack = () => {
     setSelectedField("Chats");
   };
 
   const onSend = (textareaInput: string) => {
-    sendMessageAPI(textareaInput, chat.chatId);
+    if (chat) sendMessageAPI(textareaInput, chat.chatId);
   };
 
-  if (loading) return <div>Loading</div>;
+  if (loading)
+    return (
+      <InfoArea
+        imagePath="loadingIcon.png"
+        title="Loading..."
+        content="Please wait"
+      />
+    );
 
-  return (
-    <div className="chatWindow">
-      <div className="chatWindow__header">
-        <Icon
-          icon={faArrowLeft}
-          onClick={() => {
-            goBack();
-          }}
-        />
-        <div className="chatWindow__header__wrapper">
-          <div className="chatWindow__header__wrapper__image">
-            <img
-              src={`usersPhotos/${secondUser.id}.png`}
-              onError={(e) => {
-                e.currentTarget.src = "/usersPhotos/default.png";
-              }}
-              alt={`${secondUser.name} photo`}
-            />
-          </div>
-          <div className="chatWindow__header__wrapper__user">
-            <div className="chatWindow__header__wrapper__user-name">
-              {secondUser.name}
+  if (chatError)
+    return (
+      <InfoArea
+        imagePath="errorIcon.png"
+        title="Oops!"
+        content="Something went wrong. Please try again later"
+      />
+    );
+
+  if (chat && secondUser)
+    return (
+      <div className="chatWindow">
+        <div className="chatWindow__header">
+          <Icon
+            icon={faArrowLeft}
+            onClick={() => {
+              goBack();
+            }}
+          />
+          <div className="chatWindow__header__wrapper">
+            <div className="chatWindow__header__wrapper__image">
+              <img
+                src={`usersPhotos/${secondUser.id}.png`}
+                onError={(e) => {
+                  e.currentTarget.src = "/usersPhotos/default.png";
+                }}
+                alt={`${secondUser.name} photo`}
+              />
             </div>
-            <div className="chatWindow__header__wrapper__user__status">
-              <div className={secondUser.active ? "onlineBullet" : ""} />
-              <span>{secondUser.active ? "Online" : "Offline"}</span>
+            <div className="chatWindow__header__wrapper__user">
+              <div className="chatWindow__header__wrapper__user-name">
+                {secondUser.name}
+              </div>
+              <div className="chatWindow__header__wrapper__user__status">
+                <div className={secondUser.active ? "onlineBullet" : ""} />
+                <span>{secondUser.active ? "Online" : "Offline"}</span>
+              </div>
             </div>
-          </div>
-          <div className="chatWindow__header__wrapper__actions">
-            <Icon icon={faPhone} />
-            <Icon icon={faVideo} />
-            <Icon icon={faInfo} />
+            <div className="chatWindow__header__wrapper__actions">
+              <Icon icon={faPhone} />
+              <Icon icon={faVideo} />
+              <Icon icon={faInfo} />
+            </div>
           </div>
         </div>
+        <MessagesArea messages={chat.messages} />
+        <div className="chatWindow__send">
+          <SendMessage onSend={onSend} />
+        </div>
       </div>
-      <MessagesArea messages={chat.messages} />
-      <div className="chatWindow__send">
-        <SendMessage onSend={onSend} />
-      </div>
-    </div>
-  );
+    );
 };
