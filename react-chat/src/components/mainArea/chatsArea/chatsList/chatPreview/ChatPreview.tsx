@@ -11,19 +11,26 @@ interface ChatPreviewProps {
   setSelectedField: (value: string) => void;
 }
 export const ChatPreview = ({ chat, setSelectedField }: ChatPreviewProps) => {
-  const [secondUser, setSecondUser] = useState<User>();
+  const [secondUser, setSecondUser] = useState<User>({
+    id: "",
+    name: "",
+    active: false,
+  });
+  const [secondUserError, setSecondUserError] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
+        setSecondUserError("");
 
         const data = await getSecondUser(chat.userIds);
         if (!data) return;
         setSecondUser(data);
       } catch (err) {
         console.log(err);
+        setSecondUserError(err + "");
       } finally {
         setLoading(false);
       }
@@ -37,8 +44,7 @@ export const ChatPreview = ({ chat, setSelectedField }: ChatPreviewProps) => {
     setSelectedField(`chat/:${chatId}`);
   };
 
-  if (loading) return <div>Loading</div>;
-  if (secondUser)
+  const displayMessagePreview = () => {
     return (
       <button
         className="chatPreview"
@@ -64,4 +70,41 @@ export const ChatPreview = ({ chat, setSelectedField }: ChatPreviewProps) => {
         </div>
       </button>
     );
+  };
+
+  const displayMessageError = () => {
+    return (
+      <button className="chatPreview">
+        <UserCard user={secondUser} />
+        <div className="chatPreview__details">
+          <div className={`chatPreview__details__left `}>
+            <div className={`chatPreview__details__left-name `}>
+              User unavailable
+            </div>
+            <div className={`chatPreview__details__left-message`}>
+              Content unavailable
+            </div>
+          </div>
+        </div>
+      </button>
+    );
+  };
+
+  const displayMessageLoading = () => {
+    return (
+      <button className="chatPreview">
+        <UserCard user={secondUser} />
+        <div className="chatPreview__details">
+          <div className={`chatPreview__details__left `}>
+            <div className={`chatPreview__details__left-name loading `}></div>
+            <div className={`chatPreview__details__left-message loading`}></div>
+          </div>
+        </div>
+      </button>
+    );
+  };
+
+  if (loading) return displayMessageLoading();
+  if (secondUserError) return displayMessageError();
+  if (secondUser) return displayMessagePreview();
 };

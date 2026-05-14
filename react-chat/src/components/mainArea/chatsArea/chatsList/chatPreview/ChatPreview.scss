@@ -19,6 +19,8 @@
     align-items: center;
 
     &__left {
+      flex: 1;
+      width: 100%;
       &-name {
         font-size: smaller;
         color: var(--text-primary);
@@ -38,4 +40,29 @@
 
 .highlight-message {
   color: var(--highlight);
+}
+
+.loading {
+  height: 9px;
+  margin: 10px 0;
+
+  background: linear-gradient(
+    90deg,
+    var(--active-bg) 0%,
+    var(--accent-purple-soft) 50%,
+    var(--hover-bg) 75%,
+    var(--active-bg) 100%
+  );
+
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite linear;
+}
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+
+  to {
+    background-position: -200% 0;
+  }
 }

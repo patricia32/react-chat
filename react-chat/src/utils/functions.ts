@@ -10,10 +10,10 @@ export const getSecondUser = async (
   if (!otherUserId) return null;
 
   try {
-    const data = await getUserByIdAPI(otherUserId);
-    return data as User;
+    return await getUserByIdAPI(otherUserId);
   } catch (err) {
-    console.log(err);
-    return null;
+    throw new Error(`Could not fetch user`, {
+      cause: err,
+    });
   }
 };
