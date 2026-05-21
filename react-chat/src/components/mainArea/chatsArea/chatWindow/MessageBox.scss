@@ -1,6 +1,21 @@
 .message {
   padding: 1rem;
   font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+
+  &__info {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 0.3rem;
+
+    &-time {
+      font-size: small;
+      color: var(--offline);
+    }
+  }
 }
 
 .left {
