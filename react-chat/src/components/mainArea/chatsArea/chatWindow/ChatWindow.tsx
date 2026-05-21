@@ -3,7 +3,7 @@ import "./ChatWindow.scss";
 import { useEffect, useState } from "react";
 import { getSecondUser } from "../../../../utils/functions";
 
-import type { Chat } from "../../../../models/chat";
+import type { Chat, Message } from "../../../../models/chat";
 import type { User } from "../../../../models/user";
 import {
   faArrowLeft,
@@ -14,7 +14,7 @@ import {
 
 import { Icon } from "../../../../utils/Icon";
 import { SendMessage } from "../../../sendMessage/SendMessage";
-import { getChatByID, sendMessageAPI } from "../../../../APIs/APIs";
+import { getChatByID } from "../../../../APIs/APIs";
 import { MessagesArea } from "./MessagesArea";
 import { InfoArea } from "../../infoArea/InfoArea";
 
@@ -51,12 +51,19 @@ export const ChatWindow = ({ chatId, setSelectedField }: ChatWindowProps) => {
     fetchChat();
   }, [chatId]);
 
+  const displayNewMessage = (newMessage: Message) => {
+    if (chat)
+      setChat((prev) => {
+        if (!prev) return prev;
+
+        return {
+          ...prev,
+          messages: [...prev.messages, newMessage],
+        };
+      });
+  };
   const goBack = () => {
     setSelectedField("Chats");
-  };
-
-  const onSend = (textareaInput: string) => {
-    if (chat) sendMessageAPI(textareaInput, chat.chatId);
   };
 
   if (loading)
@@ -115,7 +122,10 @@ export const ChatWindow = ({ chatId, setSelectedField }: ChatWindowProps) => {
         </div>
         <MessagesArea messages={chat.messages} />
         <div className="chatWindow__send">
-          <SendMessage onSend={onSend} />
+          <SendMessage
+            chatId={chat.chatId}
+            displayNewMessage={displayNewMessage}
+          />
         </div>
       </div>
     );

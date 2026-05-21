@@ -12,7 +12,7 @@ export const MessagesArea = ({ messages }: MessagesAreaProps) => {
   useEffect(() => {
     if (messagesRef.current)
       messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
-  }, []);
+  }, [messages]);
 
   return (
     <div className="messages" ref={messagesRef}>
