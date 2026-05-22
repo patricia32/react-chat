@@ -26,6 +26,17 @@ export async function getChatPreviews(): Promise<ChatPreviewType[]> {
   return chatPreviewsData;
 }
 
+export async function getChatIdByUserIds(
+  secondaryUserId: string,
+): Promise<string> {
+  const response = await fetch(
+    `http://localhost:3000/chat/${loggedUser.id}/${secondaryUserId}`,
+  );
+  if (!response.ok) throw new Error("Could not fetch chat id");
+
+  const data: string = await response.json();
+  return data;
+}
 export async function getChatByID(chatId: string): Promise<Chat> {
   const response = await fetch(`http://localhost:3000/chat/${chatId}`);
   if (!response.ok) throw new Error("Could not fetch chat data");

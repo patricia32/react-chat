@@ -1,4 +1,6 @@
+import { getChatIdByUserIds } from "../../../APIs/APIs";
 import type { User } from "../../../models/user";
+import { redirectToChat } from "../../../utils/functions";
 import "./UserCard.scss";
 
 interface UserCardProps {
@@ -6,8 +8,18 @@ interface UserCardProps {
   includeName?: boolean;
 }
 export const UserCard = ({ user, includeName = false }: UserCardProps) => {
+  const openChat = () => {
+    getChatIdByUserIds(user.id).then((data) => {
+      redirectToChat(data);
+    });
+  };
   return (
-    <button className="userCard">
+    <button
+      className="userCard"
+      onClick={() => {
+        openChat();
+      }}
+    >
       <div className="userCard__container">
         <img
           className="userCard__container-image"
