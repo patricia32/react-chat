@@ -8,10 +8,7 @@ import type { User } from "../../../models/user";
 import { getActiveUsers, getChatPreviews } from "../../../APIs/APIs";
 import { InfoArea } from "../infoArea/InfoArea";
 
-interface ChatsAreaProps {
-  setSelectedField: (value: string) => void;
-}
-export const ChatsArea = ({ setSelectedField }: ChatsAreaProps) => {
+export const ChatsArea = () => {
   const [activeFriends, setActiveFriends] = useState<User[]>([]);
   const [chats, setChats] = useState<ChatPreviewType[]>([]);
 
@@ -61,7 +58,7 @@ export const ChatsArea = ({ setSelectedField }: ChatsAreaProps) => {
     <div className="chatsArea">
       <SearchBar />
       <ActiveFriends users={activeFriends} />
-      <ChatsList chats={chats} setSelectedField={setSelectedField} />
+      <ChatsList chats={chats} />
     </div>
   );
 };

@@ -17,12 +17,14 @@ import { SendMessage } from "../../../sendMessage/SendMessage";
 import { getChatByID } from "../../../../APIs/APIs";
 import { MessagesArea } from "./MessagesArea";
 import { InfoArea } from "../../infoArea/InfoArea";
+import { useAppStore } from "../../../../store/appStore";
 
 interface ChatWindowProps {
   chatId: string;
-  setSelectedField: (value: string) => void;
 }
-export const ChatWindow = ({ chatId, setSelectedField }: ChatWindowProps) => {
+export const ChatWindow = ({ chatId }: ChatWindowProps) => {
+  const setSelectedField = useAppStore((state) => state.setSelectedField);
+
   const [chat, setChat] = useState<Chat>();
   const [loading, setLoading] = useState(true);
   const [chatError, setChatError] = useState<boolean>(false);

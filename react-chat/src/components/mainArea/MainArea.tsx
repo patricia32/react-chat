@@ -1,27 +1,20 @@
+import { useAppStore } from "../../store/appStore";
 import { ChatsArea } from "./chatsArea/ChatsArea";
 import { ChatWindow } from "./chatsArea/chatWindow/ChatWindow";
 import { InfoArea } from "./infoArea/InfoArea";
 import "./MainArea.scss";
 
-interface MainAreaProps {
-  selectedField: string;
-  setSelectedField: (value: string) => void;
-}
-export const MainArea = ({
-  selectedField,
-  setSelectedField,
-}: MainAreaProps) => {
+export const MainArea = () => {
+  const selectedField = useAppStore((state) => state.selectedField);
+
   const contentSwitch = () => {
     switch (true) {
       case selectedField === "Chats":
-        return <ChatsArea setSelectedField={setSelectedField} />;
+        return <ChatsArea />;
       case /^chat\/:[^:]+$/.test(selectedField): {
         const chatId: string = selectedField.split("/:")[1] ?? "";
 
-        if (chatId)
-          return (
-            <ChatWindow chatId={chatId} setSelectedField={setSelectedField} />
-          );
+        if (chatId) return <ChatWindow chatId={chatId} />;
         return;
       }
       default:

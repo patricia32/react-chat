@@ -5,12 +5,14 @@ import { UserSeenBullet } from "../../../userSeenBullet/UserSeenBullet";
 import { getSecondUser } from "../../../../../utils/functions";
 import { useEffect, useState } from "react";
 import type { User } from "../../../../../models/user";
+import { useAppStore } from "../../../../../store/appStore";
 
 interface ChatPreviewProps {
   chat: ChatPreviewType;
-  setSelectedField: (value: string) => void;
 }
-export const ChatPreview = ({ chat, setSelectedField }: ChatPreviewProps) => {
+export const ChatPreview = ({ chat }: ChatPreviewProps) => {
+  const setSelectedField = useAppStore((state) => state.setSelectedField);
+
   const [secondUser, setSecondUser] = useState<User>({
     id: "",
     name: "",

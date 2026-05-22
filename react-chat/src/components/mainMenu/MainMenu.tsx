@@ -9,15 +9,12 @@ import {
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useAppStore } from "../../store/appStore";
 
-interface MainMenuProps {
-  selectedField: string;
-  setSelectedField: (value: string) => void;
-}
-export const MainMenu = ({
-  setSelectedField,
-  selectedField,
-}: MainMenuProps) => {
+export const MainMenu = () => {
+  const selectedField = useAppStore((state) => state.selectedField);
+  const setSelectedField = useAppStore((state) => state.setSelectedField);
+
   const selectField = (field: string) => {
     if (selectedField === field) setSelectedField("");
     else setSelectedField(field);
