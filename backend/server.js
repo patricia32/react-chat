@@ -91,6 +91,23 @@ app.get("/getActiveUsers", async (req, res) => {
   }
 });
 
+app.get("/chat/:loggedUserId/:secondUserId", async (req, res) => {
+  try {
+    const { loggedUserId, secondUserId } = req.params;
+    const chats = await readChatData();
+
+    const chatByUserIds = chats.find(
+      (chat) =>
+        chat.userIds.length === 2 &&
+        chat.userIds.includes(loggedUserId) &&
+        chat.userIds.includes(secondUserId),
+    );
+    res.status(200).json(chatByUserIds.chatId);
+  } catch (error) {
+    res.status(500).json({ error: "Unable to fetch chat id" });
+  }
+});
+
 app.get("/chat/:chatId", async (req, res) => {
   try {
     const { chatId } = req.params;
