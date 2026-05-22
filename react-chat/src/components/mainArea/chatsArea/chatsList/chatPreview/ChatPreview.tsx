@@ -29,7 +29,6 @@ export const ChatPreview = ({ chat, setSelectedField }: ChatPreviewProps) => {
         if (!data) return;
         setSecondUser(data);
       } catch (err) {
-        console.log(err);
         setSecondUserError(err + "");
       } finally {
         setLoading(false);
