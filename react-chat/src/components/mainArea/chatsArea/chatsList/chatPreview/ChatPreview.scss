@@ -3,16 +3,16 @@
   align-items: center;
   gap: 1rem;
 
-  border: none;
-  outline: none;
-  font: inherit;
-  text-align: left;
-  background-color: transparent;
-
   padding-bottom: 0.5rem;
   cursor: pointer;
 
   &__details {
+    border: none;
+    outline: none;
+    font: inherit;
+    text-align: left;
+    background-color: transparent;
+
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -65,4 +65,8 @@
   to {
     background-position: -200% 0;
   }
+}
+
+.clickable {
+  cursor: pointer;
 }

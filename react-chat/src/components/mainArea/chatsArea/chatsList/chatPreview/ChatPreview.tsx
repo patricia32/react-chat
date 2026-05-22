@@ -39,14 +39,14 @@ export const ChatPreview = ({ chat }: ChatPreviewProps) => {
 
   const displayMessagePreview = () => {
     return (
-      <button
-        className="chatPreview"
-        onClick={() => {
-          redirectToChat(chat.chatId);
-        }}
-      >
+      <div className="chatPreview ">
         <UserCard user={secondUser} />
-        <div className="chatPreview__details">
+        <button
+          className="chatPreview__details clickable"
+          onClick={() => {
+            redirectToChat(chat.chatId);
+          }}
+        >
           <div className={`chatPreview__details__left `}>
             <div
               className={`chatPreview__details__left-name ${!chat.openedChat ? "highlight-name" : ""}`}
@@ -60,14 +60,14 @@ export const ChatPreview = ({ chat }: ChatPreviewProps) => {
             </div>
           </div>
           {chat.lastMessageIsRead && <UserSeenBullet userId={secondUser.id} />}
-        </div>
-      </button>
+        </button>
+      </div>
     );
   };
 
   const displayMessageError = () => {
     return (
-      <button className="chatPreview">
+      <div className="chatPreview">
         <UserCard user={secondUser} />
         <div className="chatPreview__details">
           <div className={`chatPreview__details__left `}>
@@ -79,13 +79,13 @@ export const ChatPreview = ({ chat }: ChatPreviewProps) => {
             </div>
           </div>
         </div>
-      </button>
+      </div>
     );
   };
 
   const displayMessageLoading = () => {
     return (
-      <button className="chatPreview">
+      <div className="chatPreview">
         <UserCard user={secondUser} />
         <div className="chatPreview__details">
           <div className={`chatPreview__details__left `}>
@@ -93,7 +93,7 @@ export const ChatPreview = ({ chat }: ChatPreviewProps) => {
             <div className={`chatPreview__details__left-message loading`}></div>
           </div>
         </div>
-      </button>
+      </div>
     );
   };
 

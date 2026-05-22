@@ -7,7 +7,7 @@ interface UserCardProps {
 }
 export const UserCard = ({ user, includeName = false }: UserCardProps) => {
   return (
-    <div className="userCard">
+    <button className="userCard">
       <div className="userCard__container">
         <img
           className="userCard__container-image"
@@ -18,11 +18,10 @@ export const UserCard = ({ user, includeName = false }: UserCardProps) => {
           alt="Name photo"
         />
       </div>
-
       <span
         className={`userCard__status ${user.active ? "active" : "offline"}`}
       ></span>
       {includeName && <div className="userCard-name">{user.name}</div>}
-    </div>
+    </button>
   );
 };
