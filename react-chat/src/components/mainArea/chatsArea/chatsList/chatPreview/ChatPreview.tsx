@@ -2,17 +2,14 @@ import "./ChatPreview.scss";
 import type { ChatPreviewType } from "../../../../../models/chat";
 import { UserCard } from "../../../userCard/UserCard";
 import { UserSeenBullet } from "../../../userSeenBullet/UserSeenBullet";
-import { getSecondUser } from "../../../../../utils/functions";
+import { getSecondUser, redirectToChat } from "../../../../../utils/functions";
 import { useEffect, useState } from "react";
 import type { User } from "../../../../../models/user";
-import { useAppStore } from "../../../../../store/appStore";
 
 interface ChatPreviewProps {
   chat: ChatPreviewType;
 }
 export const ChatPreview = ({ chat }: ChatPreviewProps) => {
-  const setSelectedField = useAppStore((state) => state.setSelectedField);
-
   const [secondUser, setSecondUser] = useState<User>({
     id: "",
     name: "",
@@ -39,11 +36,6 @@ export const ChatPreview = ({ chat }: ChatPreviewProps) => {
 
     fetchData();
   }, [chat.userIds, chat.chatId]);
-
-  const redirectToChat = (chatId: string) => {
-    if (!chatId) return;
-    setSelectedField(`chat/:${chatId}`);
-  };
 
   const displayMessagePreview = () => {
     return (

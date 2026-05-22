@@ -1,6 +1,7 @@
 import { getUserByIdAPI } from "../APIs/APIs";
 import { loggedUser } from "../mocks/loggedUser";
 import type { User } from "../models/user";
+import { useAppStore } from "../store/appStore";
 
 export const getSecondUser = async (
   userIds: string[],
@@ -51,4 +52,9 @@ export const formatMessageDate = (dateProp: Date) => {
     day: "numeric",
     month: "long",
   });
+};
+
+export const redirectToChat = (chatId: string) => {
+  if (!chatId) return;
+  useAppStore.getState().setSelectedField(`chat/:${chatId}`);
 };
