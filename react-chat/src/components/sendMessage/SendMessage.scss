@@ -1,12 +1,25 @@
 .sendMessage {
   width: 100%;
   padding: 1.5rem 0;
+
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.3rem;
 
   border-top: 1px solid var(--border-color);
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  &-feedback {
+    height: 0.4rem;
+    font-size: small;
+    color: var(--text-secondary);
+  }
 
   textarea {
     width: 80%;
@@ -63,6 +76,11 @@
     background-color: var(--accent-purple);
 
     transition: all 0.3s ease-in-out;
+  }
+
+  button:disabled {
+    cursor: wait;
+    background-color: var(--highlight);
   }
 
   button:hover {
