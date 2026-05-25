@@ -124,6 +124,33 @@ app.get("/chat/:chatId", async (req, res) => {
   }
 });
 
+app.post("/chat/create", async (req, res) => {
+  const { userIds } = req.body || [];
+  if (userIds.length < 2)
+    return res.status(400).json({ error: "At least 2 user ids are required." });
+
+  try {
+    const chats = await readChatData();
+    let newChatId = `chat-${chats.length + 1}`;
+    const newChat = {
+      chatId: newChatId,
+      userIds: userIds,
+      messages: [],
+      lastMessageContent: "",
+      lastMessageIsRead: true,
+      openedChat: true,
+    };
+
+    chats.push(newChat);
+    await writeChatData(chats);
+    res.status(201).json(newChatId);
+  } catch (error) {
+    res.status(500).json({
+      error: "Unable to create new chat.",
+    });
+  }
+});
+
 app.get("/chatPreviews", async (req, res) => {
   try {
     const chats = await readChatData();

@@ -1,4 +1,5 @@
-import { getChatIdByUserIds } from "../../../APIs/APIs";
+import { createNewChat, getChatIdByUserIds } from "../../../APIs/APIs";
+import { loggedUser } from "../../../mocks/loggedUser";
 import type { User } from "../../../models/user";
 import { redirectToChat } from "../../../utils/functions";
 import "./UserCard.scss";
@@ -8,10 +9,20 @@ interface UserCardProps {
   includeName?: boolean;
 }
 export const UserCard = ({ user, includeName = false }: UserCardProps) => {
-  const openChat = () => {
-    getChatIdByUserIds(user.id).then((data) => {
-      redirectToChat(data);
-    });
+  const openChat = async () => {
+    try {
+      const chatId = await getChatIdByUserIds(user.id);
+      if (chatId) redirectToChat(chatId);
+      else
+        try {
+          const newChatId = await createNewChat([loggedUser.id, user.id]);
+          redirectToChat(newChatId);
+        } catch (createError) {
+          console.log(createError);
+        }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <button

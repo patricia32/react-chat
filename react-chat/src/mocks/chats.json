@@ -82,9 +82,16 @@
         "content": "binee",
         "createdAt": "2026-05-12T11:47:36.182Z",
         "isRead": false
+      },
+      {
+        "messageId": "m-12",
+        "senderId": "0",
+        "content": "ok",
+        "createdAt": "2026-05-25T10:11:47.576Z",
+        "isRead": false
       }
     ],
-    "lastMessageContent": "binee",
+    "lastMessageContent": "ok",
     "lastMessageIsRead": false,
     "openedChat": true
   },
