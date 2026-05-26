@@ -44,7 +44,7 @@ export const ChatPreview = ({ chat }: ChatPreviewProps) => {
         <button
           className="chatPreview__details clickable"
           onClick={() => {
-            redirectToChat(chat.chatId);
+            redirectToChat(chat.chatId, secondUser.id);
           }}
         >
           <div className={`chatPreview__details__left `}>

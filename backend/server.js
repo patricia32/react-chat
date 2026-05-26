@@ -27,7 +27,7 @@ app.use(express.json());
 const allowOrigin = "*";
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", allowOrigin);
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PATCH");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   if (req.method === "OPTIONS") {
@@ -169,6 +169,35 @@ app.get("/chatPreviews", async (req, res) => {
 
     res.status(500).json({
       error: "Unable to fetch chats.",
+    });
+  }
+});
+
+app.patch("/chat/markAsRead/:chatId/:secondUserId", async (req, res) => {
+  const { chatId, secondUserId } = req.params;
+
+  try {
+    const chats = await readChatData();
+
+    const chatsUpdated = chats.map((chat) =>
+      chat.chatId === chatId
+        ? {
+            ...chat,
+            openedChat: true,
+            messages: chat.messages.map((message) =>
+              message.senderId === secondUserId
+                ? { ...message, isRead: true }
+                : message,
+            ),
+          }
+        : chat,
+    );
+
+    await writeChatData(chatsUpdated);
+    res.status(201).json({ success: true });
+  } catch (error) {
+    res.status(500).json({
+      error: "Unable to mark chat as read.",
     });
   }
 });

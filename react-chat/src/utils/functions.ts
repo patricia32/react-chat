@@ -1,4 +1,4 @@
-import { getUserByIdAPI } from "../APIs/APIs";
+import { getUserByIdAPI, markChatAsReadAPI } from "../APIs/APIs";
 import { loggedUser } from "../mocks/loggedUser";
 import type { User } from "../models/user";
 import { useAppStore } from "../store/appStore";
@@ -54,7 +54,13 @@ export const formatMessageDate = (dateProp: Date) => {
   });
 };
 
-export const redirectToChat = (chatId: string) => {
+export const redirectToChat = (chatId: string, secondUserId: string) => {
   if (!chatId) return;
-  useAppStore.getState().setSelectedField(`chat/:${chatId}`);
+  markChatAsReadAPI(chatId, secondUserId)
+    .then(() => {
+      useAppStore.getState().setSelectedField(`chat/:${chatId}`);
+    })
+    .catch((error) => {
+      throw new Error(error);
+    });
 };

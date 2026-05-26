@@ -59,6 +59,21 @@ export async function getChatByID(chatId: string): Promise<Chat> {
   return data;
 }
 
+export async function markChatAsReadAPI(chatId: string, secondUserId: string) {
+  const response = await fetch(
+    `http://localhost:3000/chat/markAsRead/${chatId}/${secondUserId}`,
+    {
+      headers: { "Content-Type": "application/json" },
+      method: "PATCH",
+    },
+  );
+
+  if (!response.ok) throw new Error("Could not mark chat as read.");
+
+  const data = await response.json();
+  return data;
+}
+
 export const sendMessageAPI = async (
   text: string,
   chatId: string,

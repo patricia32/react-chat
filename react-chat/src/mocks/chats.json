@@ -11,7 +11,7 @@
         "senderId": "0",
         "content": "Hey! How are you?",
         "createdAt": "2026-05-01T10:00:00Z",
-        "isRead": true
+        "isRead": false
       },
       {
         "messageId": "m2",
@@ -25,7 +25,7 @@
         "senderId": "0",
         "content": "Pretty good. Busy day though 😅",
         "createdAt": "2026-05-01T10:02:00Z",
-        "isRead": true
+        "isRead": false
       },
       {
         "messageId": "m4",
@@ -39,7 +39,7 @@
         "senderId": "0",
         "content": "Want to grab a coffee later?",
         "createdAt": "2026-05-01T10:05:00Z",
-        "isRead": true
+        "isRead": false
       },
       {
         "messageId": "m6",
@@ -147,7 +147,7 @@
     ],
     "lastMessageContent": "Got it, thanks!",
     "lastMessageIsRead": false,
-    "openedChat": false
+    "openedChat": true
   },
   {
     "chatId": "chat-3",
