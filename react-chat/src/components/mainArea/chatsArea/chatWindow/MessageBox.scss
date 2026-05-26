@@ -2,8 +2,8 @@
   padding: 0.8rem;
   font-size: 0.9rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
+
+  min-width: 3rem;
 
   &__info {
     display: flex;
@@ -14,10 +14,18 @@
     &-time {
       font-size: small;
       color: var(--offline);
+      align-self: end;
     }
   }
 }
+.short {
+  gap: 0.6rem;
+}
 
+.long {
+  flex-direction: column;
+  gap: 0.1rem;
+}
 .left {
   align-self: start;
   background-color: var(--glass-bg);

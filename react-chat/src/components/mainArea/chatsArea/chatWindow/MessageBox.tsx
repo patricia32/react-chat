@@ -18,7 +18,7 @@ export const MessageBox = ({ message }: MessageProps) => {
 
   return (
     <div
-      className={`message ${message.senderId === loggedUser.id ? "right" : "left"}`}
+      className={`message ${message.content.length < 8 ? "short" : "long"}  ${message.senderId === loggedUser.id ? "right" : "left"}`}
     >
       {message.content}
       <div className="message__info">
@@ -30,9 +30,7 @@ export const MessageBox = ({ message }: MessageProps) => {
               icon={faCheck}
               size="sm"
               style={{
-                color: message.isRead
-                  ? "var(--accent-purple)"
-                  : "var(--offline)",
+                color: message.isRead ? "var(--online)" : "var(--offline)",
               }}
             />
           )}

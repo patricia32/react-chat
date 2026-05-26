@@ -89,9 +89,23 @@
         "content": "ok",
         "createdAt": "2026-05-25T10:11:47.576Z",
         "isRead": false
+      },
+      {
+        "messageId": "m-13",
+        "senderId": "0",
+        "content": "hello",
+        "createdAt": "2026-05-26T12:38:50.214Z",
+        "isRead": false
+      },
+      {
+        "messageId": "m-14",
+        "senderId": "0",
+        "content": "okayyy then",
+        "createdAt": "2026-05-26T12:44:54.544Z",
+        "isRead": false
       }
     ],
-    "lastMessageContent": "ok",
+    "lastMessageContent": "okayyy then",
     "lastMessageIsRead": false,
     "openedChat": true
   },
