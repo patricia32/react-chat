@@ -28,10 +28,11 @@ export async function getChatPreviews(): Promise<ChatPreviewType[]> {
 
 export async function getChatIdByUserIds(
   secondaryUserId: string,
-): Promise<string> {
+): Promise<string | null> {
   const response = await fetch(
     `http://localhost:3000/chat/${loggedUser.id}/${secondaryUserId}`,
   );
+  if (response.status === 404) return null;
   if (!response.ok) throw new Error("Could not fetch chat id");
 
   const data: string = await response.json();

@@ -102,7 +102,8 @@ app.get("/chat/:loggedUserId/:secondUserId", async (req, res) => {
         chat.userIds.includes(loggedUserId) &&
         chat.userIds.includes(secondUserId),
     );
-    res.status(200).json(chatByUserIds.chatId);
+    if (chatByUserIds) res.status(200).json(chatByUserIds.chatId);
+    else res.status(404).json("Could not find chat");
   } catch (error) {
     res.status(500).json({ error: "Unable to fetch chat id" });
   }

@@ -10,20 +10,15 @@ interface UserCardProps {
 }
 export const UserCard = ({ user, includeName = false }: UserCardProps) => {
   const openChat = async () => {
-    try {
-      const chatId = await getChatIdByUserIds(user.id);
-      if (chatId) redirectToChat(chatId);
-      else
-        try {
-          const newChatId = await createNewChat([loggedUser.id, user.id]);
-          redirectToChat(newChatId);
-        } catch (createError) {
-          console.log(createError);
-        }
-    } catch (error) {
-      console.log(error);
+    const chatId = await getChatIdByUserIds(user.id);
+
+    if (chatId) redirectToChat(chatId, user.id);
+    else {
+      const newChatId = await createNewChat([loggedUser.id, user.id]);
+      redirectToChat(newChatId, user.id);
     }
   };
+
   return (
     <button
       className="userCard"

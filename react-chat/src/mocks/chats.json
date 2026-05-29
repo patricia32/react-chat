@@ -1,10 +1,7 @@
 [
   {
     "chatId": "chat-1",
-    "userIds": [
-      "0",
-      "1"
-    ],
+    "userIds": ["0", "1"],
     "messages": [
       {
         "messageId": "m1",
@@ -111,10 +108,7 @@
   },
   {
     "chatId": "chat-2",
-    "userIds": [
-      "0",
-      "2"
-    ],
+    "userIds": ["0", "2"],
     "messages": [
       {
         "messageId": "m7",
@@ -156,7 +150,7 @@
         "senderId": "2",
         "content": "Got it, thanks!",
         "createdAt": "2026-05-02T09:16:00Z",
-        "isRead": false
+        "isRead": true
       }
     ],
     "lastMessageContent": "Got it, thanks!",
@@ -165,10 +159,7 @@
   },
   {
     "chatId": "chat-3",
-    "userIds": [
-      "0",
-      "3"
-    ],
+    "userIds": ["0", "3"],
     "messages": [
       {
         "messageId": "m13",
@@ -212,10 +203,7 @@
   },
   {
     "chatId": "chat-4",
-    "userIds": [
-      "0",
-      "4"
-    ],
+    "userIds": ["0", "4"],
     "messages": [
       {
         "messageId": "m18",
@@ -252,10 +240,7 @@
   },
   {
     "chatId": "chat-5",
-    "userIds": [
-      "0",
-      "5"
-    ],
+    "userIds": ["0", "5"],
     "messages": [
       {
         "messageId": "m22",
