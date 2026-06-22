@@ -31,6 +31,18 @@
         color: var(--text-secondary);
       }
     }
+
+    &__right {
+      display: flex;
+      flex-direction: column;
+      align-items: end;
+      justify-content: center;
+      gap: 0.3rem;
+
+      font: inherit;
+      color: var(--text-secondary);
+      font-size: small;
+    }
   }
 }
 .highlight-name {

@@ -52,6 +52,35 @@ export const formatMessageDate = (dateProp: Date) => {
   });
 };
 
+export const formatChatPreviewDate = (dateProp: Date) => {
+  const date = new Date(dateProp);
+  const today = new Date();
+  const yesterday = new Date(today.getDate() - 1);
+
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  const diffDays = (today.getTime() - date.getTime()) / (24 * 60 * 60 * 1000);
+  console.log(diffDays);
+  if (diffDays < 1) return `${date.getHours()}:${date.getMinutes()}`;
+
+  if (diffDays < 2) return "yesterday";
+
+  if (diffDays < 7) return days[date.getDay()];
+
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+  });
+};
+
 export const redirectToChat = (chatId: string, secondUserId: string) => {
   if (!chatId) return;
   markChatAsReadAPI(chatId, secondUserId)

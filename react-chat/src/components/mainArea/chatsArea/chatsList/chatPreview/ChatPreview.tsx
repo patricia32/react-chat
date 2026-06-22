@@ -2,7 +2,10 @@ import "./ChatPreview.scss";
 import type { ChatPreviewType } from "../../../../../models/chat";
 import { UserCard } from "../../../userCard/UserCard";
 import { UserSeenBullet } from "../../../userSeenBullet/UserSeenBullet";
-import { redirectToChat } from "../../../../../utils/functions";
+import {
+  formatChatPreviewDate,
+  redirectToChat,
+} from "../../../../../utils/functions";
 import { useEffect, useState } from "react";
 import type { User } from "../../../../../models/user";
 import { loggedUser } from "../../../../../mocks/loggedUser";
@@ -12,6 +15,7 @@ interface ChatPreviewProps {
   chat: ChatPreviewType;
 }
 export const ChatPreview = ({ chat }: ChatPreviewProps) => {
+  console.log(chat);
   const [secondUser, setSecondUser] = useState<User>({
     user_id: "",
     name: "",
@@ -65,9 +69,12 @@ export const ChatPreview = ({ chat }: ChatPreviewProps) => {
               {chat.last_message_content}
             </div>
           </div>
-          {chat.last_message_is_read && (
-            <UserSeenBullet userId={secondUser.user_id} />
-          )}
+          <div className="chatPreview__details__right">
+            <div>{formatChatPreviewDate(chat.last_message_at)}</div>
+            {chat.last_message_is_read && (
+              <UserSeenBullet userId={secondUser.user_id} />
+            )}
+          </div>
         </button>
       </div>
     );

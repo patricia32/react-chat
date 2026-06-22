@@ -53,12 +53,32 @@ const clearDb = db.transaction(() => {
 // `,
 // ).run(
 //   crypto.randomUUID(),
-//   "60b8d2ae-0f2d-45f1-8500-5433bc103c53", // chat id
-//   "fc729f78-2fc2-4d51-a1f8-4885d3fb2893", // sender_id
-//   "Hello there!",
-//   new Date().toISOString(),
+//   "3a6b222d-4899-419b-acb0-e2af8964adc5", // chat id
+//   "412d0423-b106-48ea-bfc4-fcc2f2e613ac", // sender_id
+//   "Hi!",
+//   "2025-06-21T10:00:00.000Z",
 //   0,
 // );
+
+// db.prepare(
+//   `
+//   UPDATE chat
+//   SET last_message_id = ?
+//   WHERE chat_id = ?
+// `,
+// ).run(
+//   "4fbb5a08-c5f2-4f7c-a06b-38b70d985e45",
+//   "3a6b222d-4899-419b-acb0-e2af8964adc5",
+// );
+
+// db.prepare(
+//   `
+//   UPDATE message
+//   SET created_at = ?
+//   WHERE message_id = ?
+// `,
+// ).run("2026-05-20T10:00:00.000Z", "4fbb5a08-c5f2-4f7c-a06b-38b70d985e45");
+
 console.log("Database initialized.");
 
 const tables = db
