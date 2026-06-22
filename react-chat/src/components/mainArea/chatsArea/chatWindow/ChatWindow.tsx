@@ -14,18 +14,20 @@ import {
 
 import { Icon } from "../../../../utils/Icon";
 import { SendMessage } from "../../../sendMessage/SendMessage";
-import { getChatByID } from "../../../../APIs/APIs";
+import { getChatByID, getChatMessages } from "../../../../APIs/APIs";
 import { MessagesArea } from "./MessagesArea";
 import { InfoArea } from "../../infoArea/InfoArea";
 import { useAppStore } from "../../../../store/appStore";
 
 interface ChatWindowProps {
-  chatId: string;
+  chat_id: string;
 }
-export const ChatWindow = ({ chatId }: ChatWindowProps) => {
+export const ChatWindow = ({ chat_id }: ChatWindowProps) => {
   const setSelectedField = useAppStore((state) => state.setSelectedField);
 
   const [chat, setChat] = useState<Chat>();
+
+  const [messages, setMessages] = useState<Message[]>();
   const [loading, setLoading] = useState(true);
   const [chatError, setChatError] = useState<boolean>(false);
   const [secondUser, setSecondUser] = useState<User>();
@@ -35,11 +37,16 @@ export const ChatWindow = ({ chatId }: ChatWindowProps) => {
       setLoading(true);
       setChatError(false);
 
-      getChatByID(chatId)
-        .then(async (data) => {
-          setChat(data);
+      Promise.all([getChatByID(chat_id), getChatMessages(chat_id)])
+        .then(async ([chatData, messagesData]) => {
+          if (chatData) setChat(chatData);
+          if (messagesData) setMessages(messagesData);
 
-          const secondUserData = await getSecondUser(data.userIds);
+          const secondUserData: User = await getSecondUser([
+            chatData.user1_id,
+            chatData.user2_id,
+          ]);
+
           if (secondUserData) setSecondUser(secondUserData);
         })
         .catch(() => {
@@ -51,18 +58,14 @@ export const ChatWindow = ({ chatId }: ChatWindowProps) => {
     };
 
     fetchChat();
-  }, [chatId]);
+  }, [chat_id]);
 
   const displayNewMessage = (newMessage: Message) => {
-    if (chat)
-      setChat((prev) => {
-        if (!prev) return prev;
+    setMessages((prev) => {
+      if (!prev) return [];
 
-        return {
-          ...prev,
-          messages: [...prev.messages, newMessage],
-        };
-      });
+      return [...prev, newMessage];
+    });
   };
   const goBack = () => {
     setSelectedField("Chats");
@@ -99,7 +102,7 @@ export const ChatWindow = ({ chatId }: ChatWindowProps) => {
           <div className="chatWindow__header__wrapper">
             <div className="chatWindow__header__wrapper__image">
               <img
-                src={`usersPhotos/${secondUser.id}.png`}
+                src={`usersPhotos/${secondUser.user_id}.png`}
                 onError={(e) => {
                   e.currentTarget.src = "/usersPhotos/default.png";
                 }}
@@ -111,8 +114,8 @@ export const ChatWindow = ({ chatId }: ChatWindowProps) => {
                 {secondUser.name}
               </div>
               <div className="chatWindow__header__wrapper__user__status">
-                <div className={secondUser.active ? "onlineBullet" : ""} />
-                <span>{secondUser.active ? "Online" : "Offline"}</span>
+                <div className={secondUser.is_active ? "onlineBullet" : ""} />
+                <span>{secondUser.is_active ? "Online" : "Offline"}</span>
               </div>
             </div>
             <div className="chatWindow__header__wrapper__actions">
@@ -122,10 +125,10 @@ export const ChatWindow = ({ chatId }: ChatWindowProps) => {
             </div>
           </div>
         </div>
-        <MessagesArea messages={chat.messages} />
+        <MessagesArea messages={messages ? messages : []} />
         <div className="chatWindow__send">
           <SendMessage
-            chatId={chat.chatId}
+            chatId={chat.chat_id}
             displayNewMessage={displayNewMessage}
           />
         </div>

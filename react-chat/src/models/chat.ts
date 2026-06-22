@@ -1,25 +1,28 @@
 export interface Message {
-  messageId: string;
-  senderId: string;
+  message_id: string;
+  message_chat_id: string;
+  sender_id: string;
   content: string;
-  createdAt: Date;
-  isRead: boolean;
+  created_at: Date;
+  is_read: boolean;
 }
 
 export interface Chat {
-  chatId: string;
-  userIds: string[];
+  chat_id: string;
+  user1_id: string;
+  user2_id: string;
+  is_archived: boolean;
+  is_open: boolean;
+  last_message_id: string;
   messages: Message[];
-  lastMessageContent: string;
-  lastMessageIsRead: boolean;
-  openedChat: boolean;
 }
 
 export type ChatPreviewType = Pick<
   Chat,
-  | "chatId"
-  | "userIds"
-  | "lastMessageContent"
-  | "lastMessageIsRead"
-  | "openedChat"
->;
+  "chat_id" | "user1_id" | "user2_id" | "is_archived" | "is_open"
+> & {
+  last_message_content: Message["content"];
+  last_message_at: Message["created_at"];
+  last_message_is_read: Message["is_read"];
+  last_message_sender_id: Message["sender_id"];
+};

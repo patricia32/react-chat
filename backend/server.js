@@ -1,7 +1,10 @@
 const express = require("express");
 const fs = require("fs/promises");
 const path = require("path");
-
+require("./database/initDb");
+require("./database/seed");
+const db = require("./database/database");
+const { randomBytes, randomUUID } = require("crypto");
 const CHAT_FILE = path.join(
   __dirname,
   "..",
@@ -62,12 +65,41 @@ function validateMessageInput(senderId, text) {
   };
 }
 
-app.get("/getUserById/:userId", async (req, res) => {
+// app.get("/getUserById/:userId", async (req, res) => {
+//   try {
+//     const { userId } = req.params;
+//     const users = await readUsersData();
+//     const userById = users.filter((user) => user.id === userId);
+//     res.status(200).json(userById[0]);
+//   } catch (error) {
+//     console.error(`Failed to fetch user with id ${userId}`, error);
+
+//     res.status(500).json({
+//       error: `Failed to fetch user with id ${userId}.`,
+//     });
+//   }
+// });
+
+app.get("/getUserById/:userId", (req, res) => {
+  const { userId } = req.params;
+
   try {
-    const { userId } = req.params;
-    const users = await readUsersData();
-    const userById = users.filter((user) => user.id === userId);
-    res.status(200).json(userById[0]);
+    const userById = db
+      .prepare(
+        `
+            SELECT *
+            FROM users
+            WHERE user_id = ?
+        `,
+      )
+      .get(userId);
+
+    if (!userById)
+      return res.status(404).json({
+        error: "User not found",
+      });
+
+    res.status(200).json(userById);
   } catch (error) {
     console.error(`Failed to fetch user with id ${userId}`, error);
 
@@ -79,8 +111,16 @@ app.get("/getUserById/:userId", async (req, res) => {
 
 app.get("/getActiveUsers", async (req, res) => {
   try {
-    const users = await readUsersData();
-    const activeUsers = users.filter((user) => user.active);
+    const activeUsers = db
+      .prepare(
+        `
+      SELECT * 
+      FROM users
+      WHERE is_active=1
+      `,
+      )
+      .all();
+
     res.status(200).json(activeUsers);
   } catch (error) {
     console.error("Failed to fetch users", error);
@@ -91,31 +131,24 @@ app.get("/getActiveUsers", async (req, res) => {
   }
 });
 
-app.get("/chat/:loggedUserId/:secondUserId", async (req, res) => {
+app.get("/chat/getChatById/:chat_id", async (req, res) => {
   try {
-    const { loggedUserId, secondUserId } = req.params;
-    const chats = await readChatData();
-
-    const chatByUserIds = chats.find(
-      (chat) =>
-        chat.userIds.length === 2 &&
-        chat.userIds.includes(loggedUserId) &&
-        chat.userIds.includes(secondUserId),
-    );
-    if (chatByUserIds) res.status(200).json(chatByUserIds.chatId);
-    else res.status(404).json("Could not find chat");
-  } catch (error) {
-    res.status(500).json({ error: "Unable to fetch chat id" });
-  }
-});
-
-app.get("/chat/:chatId", async (req, res) => {
-  try {
-    const { chatId } = req.params;
-    const chats = await readChatData();
-    const chatById = chats.find((chat) => chat.chatId === chatId);
-
-    res.status(200).json(chatById);
+    const { chat_id } = req.params;
+    const chat = db
+      .prepare(
+        `
+        SELECT
+          c.*,
+          m.*
+        FROM chat c
+        LEFT JOIN message m
+          ON c.chat_id = m.message_chat_id
+        WHERE c.chat_id = ?
+        ORDER BY m.created_at ASC
+      `,
+      )
+      .get(chat_id);
+    res.status(200).json(chat);
   } catch (error) {
     console.error("Failed to fetch chats", error);
 
@@ -125,25 +158,46 @@ app.get("/chat/:chatId", async (req, res) => {
   }
 });
 
+app.get(
+  "/chat/getChatIdByUserIds/:loggedUserId/:secondUserId",
+  async (req, res) => {
+    try {
+      const { loggedUserId, secondUserId } = req.params;
+      const chat_id = db
+        .prepare(
+          `
+            SELECT chat_id
+            FROM chat
+            WHERE (user1_id = ? AND user2_id = ?)
+              OR (user2_id = ? AND user1_id = ?)
+          `,
+        )
+        .get(loggedUserId, secondUserId, secondUserId, loggedUserId);
+      if (chat_id) res.status(200).json(chat_id);
+      else res.status(404).json("Could not find chat");
+    } catch (error) {
+      res.status(500).json({ error: "Unable to fetch chat id" });
+    }
+  },
+);
+
 app.post("/chat/create", async (req, res) => {
   const { userIds } = req.body || [];
-  if (userIds.length < 2)
-    return res.status(400).json({ error: "At least 2 user ids are required." });
+  if (!Array.isArray(userIds) || userIds.length !== 2)
+    return res.status(400).json({
+      error: "Exactly 2 user ids are required.",
+    });
 
   try {
-    const chats = await readChatData();
-    let newChatId = `chat-${chats.length + 1}`;
-    const newChat = {
-      chatId: newChatId,
-      userIds: userIds,
-      messages: [],
-      lastMessageContent: "",
-      lastMessageIsRead: true,
-      openedChat: true,
-    };
+    const chat = db.prepare(
+      `
+        INSERT INTO chat (chat_id, user1_id, user2_id, is_archived, last_message_id) 
+        VALUES(?, ?, ?, ?, ?)
+      `,
+    );
+    const newChatId = randomUUID();
 
-    chats.push(newChat);
-    await writeChatData(chats);
+    chat.run(newChatId, userIds[0], userIds[1], 0, null);
     res.status(201).json(newChatId);
   } catch (error) {
     res.status(500).json({
@@ -152,17 +206,40 @@ app.post("/chat/create", async (req, res) => {
   }
 });
 
-app.get("/chatPreviews", async (req, res) => {
+app.get("/chatPreviews/:loggedUserId", (req, res) => {
   try {
-    const chats = await readChatData();
-
-    const chatPreviews = chats.map((chat) => ({
-      chatId: chat.chatId,
-      userIds: chat.userIds,
-      lastMessageContent: chat.lastMessageContent,
-      lastMessageIsRead: chat.lastMessageIsRead,
-      openedChat: chat.openedChat,
-    }));
+    const { loggedUserId } = req.params;
+    const chatPreviews = db
+      .prepare(
+        `
+      SELECT
+        c.chat_id,
+        c.is_archived,
+        c.user1_id,
+        c.user2_id,
+        m.message_id,
+        m.sender_id AS last_message_sender_id,
+        m.content AS last_message_content,
+        m.created_at AS last_message_at,
+        m.is_read AS last_message_is_read,
+        CASE
+            WHEN EXISTS (
+                SELECT 1
+                FROM message m2
+                WHERE m2.message_chat_id = c.chat_id
+                  AND m2.sender_id != ?
+                  AND m2.is_read = 0
+            )
+            THEN FALSE
+            ELSE TRUE
+        END AS is_open
+      FROM chat c
+      LEFT JOIN message m
+        ON c.last_message_id = m.message_id
+      ORDER BY m.created_at DESC
+    `,
+      )
+      .all(loggedUserId);
 
     res.status(200).json(chatPreviews);
   } catch (error) {
@@ -174,27 +251,43 @@ app.get("/chatPreviews", async (req, res) => {
   }
 });
 
-app.patch("/chat/markAsRead/:chatId/:secondUserId", async (req, res) => {
-  const { chatId, secondUserId } = req.params;
+app.get("/chat/getMessages/:chat_id", (req, res) => {
+  try {
+    const { chat_id } = req.params;
+    const messages = db
+      .prepare(
+        `
+          SELECT * 
+          FROM message
+          WHERE message_chat_id = ?
+          ORDER BY created_at ASC
+        `,
+      )
+      .all(chat_id);
+
+    if (!messages) messages = [];
+    res.status(200).json(messages);
+  } catch (error) {
+    console.error("Failed to fetch messages", error);
+
+    res.status(500).json({
+      error: "Unable to fetch messages.",
+    });
+  }
+});
+
+app.patch("/chat/markAsRead/:chat_id/:second_user_id", async (req, res) => {
+  const { chat_id, second_user_id } = req.params;
 
   try {
-    const chats = await readChatData();
+    db.prepare(
+      `
+      UPDATE message
+      SET is_read = 1
+      WHERE message_chat_id = ? and sender_id = ?
+    `,
+    ).run(chat_id, second_user_id);
 
-    const chatsUpdated = chats.map((chat) =>
-      chat.chatId === chatId
-        ? {
-            ...chat,
-            openedChat: true,
-            messages: chat.messages.map((message) =>
-              message.senderId === secondUserId
-                ? { ...message, isRead: true }
-                : message,
-            ),
-          }
-        : chat,
-    );
-
-    await writeChatData(chatsUpdated);
     res.status(201).json({ success: true });
   } catch (error) {
     res.status(500).json({
@@ -203,13 +296,13 @@ app.patch("/chat/markAsRead/:chatId/:secondUserId", async (req, res) => {
   }
 });
 
-app.post("/sendMessage/:chatId", async (req, res) => {
-  const { chatId } = req.params;
-  const { senderId, text } = req.body || {};
+app.post("/sendMessage/:chat_id", async (req, res) => {
+  const { chat_id } = req.params;
+  const { sender_id, content } = req.body || {};
 
   const { normalizedSenderId, normalizedText } = validateMessageInput(
-    senderId,
-    text,
+    sender_id,
+    content,
   );
 
   if (!normalizedSenderId) {
@@ -225,39 +318,47 @@ app.post("/sendMessage/:chatId", async (req, res) => {
   }
 
   try {
-    const chats = await readChatData();
-    const chat = chats.find((c) => c.chatId === chatId);
+    const insertMessage = db.prepare(`
+      INSERT INTO message (
+        message_id,
+        message_chat_id,
+        sender_id,
+        content,
+        created_at,
+        is_read
+      )
+      VALUES (?, ?, ?, ?, ?, ?)
+    `);
 
-    if (!chat) {
-      return res.status(404).json({
-        error: "Chat not found.",
-      });
-    }
-
-    if (!Array.isArray(chat.messages)) {
-      chat.messages = [];
-    }
-
-    const newMessage = {
-      messageId: `m-${chat.messages.length + 1}`,
-      senderId: normalizedSenderId,
-      content: normalizedText,
-      createdAt: new Date().toISOString(),
-      isRead: false,
+    const message = {
+      message_id: crypto.randomUUID(),
+      message_chat_id: chat_id,
+      sender_id: sender_id,
+      content: content,
+      created_at: new Date().toISOString(),
+      is_read: 0,
     };
 
-    chat.messages.push(newMessage);
+    insertMessage.run(
+      message.message_id,
+      message.message_chat_id,
+      message.sender_id,
+      message.content,
+      message.created_at,
+      message.is_read,
+    );
 
-    chat.lastMessageContent = normalizedText;
-    chat.lastMessageIsRead = false;
+    db.prepare(
+      `
+      UPDATE chat
+      SET last_message_id = ?
+      WHERE chat_id = ?
+    `,
+    ).run(message.message_id, message.message_chat_id);
 
-    await writeChatData(chats);
-
-    const addedMessage = chat.messages[chat.messages.length - 1];
-
-    res.status(201).json(addedMessage);
+    res.status(201).json(message);
   } catch (error) {
-    console.error(`Failed to add message for chat ${chatId}`, error);
+    console.error(`Failed to store message ${content}`, error);
 
     res.status(500).json({
       error: "Unable to save message.",

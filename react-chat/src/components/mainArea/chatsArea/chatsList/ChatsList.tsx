@@ -18,9 +18,12 @@ export const ChatsList = ({ chats }: ChatsListProps) => {
         />
       ) : (
         <div className="chatsList__wrapper">
-          {chats.map((chat) => (
-            <ChatPreview key={chat.chatId} chat={chat} />
-          ))}
+          {chats.map(
+            (chat) =>
+              chat.last_message_content && (
+                <ChatPreview key={chat.chat_id} chat={chat} />
+              ),
+          )}
         </div>
       )}
     </div>

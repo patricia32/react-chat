@@ -1,7 +1,10 @@
 [
   {
     "chatId": "chat-1",
-    "userIds": ["0", "1"],
+    "userIds": [
+      "0",
+      "1"
+    ],
     "messages": [
       {
         "messageId": "m1",
@@ -108,7 +111,10 @@
   },
   {
     "chatId": "chat-2",
-    "userIds": ["0", "2"],
+    "userIds": [
+      "0",
+      "2"
+    ],
     "messages": [
       {
         "messageId": "m7",
@@ -159,7 +165,10 @@
   },
   {
     "chatId": "chat-3",
-    "userIds": ["0", "3"],
+    "userIds": [
+      "0",
+      "3"
+    ],
     "messages": [
       {
         "messageId": "m13",
@@ -203,7 +212,10 @@
   },
   {
     "chatId": "chat-4",
-    "userIds": ["0", "4"],
+    "userIds": [
+      "0",
+      "4"
+    ],
     "messages": [
       {
         "messageId": "m18",
@@ -240,7 +252,10 @@
   },
   {
     "chatId": "chat-5",
-    "userIds": ["0", "5"],
+    "userIds": [
+      "0",
+      "5"
+    ],
     "messages": [
       {
         "messageId": "m22",
@@ -279,6 +294,28 @@
       }
     ],
     "lastMessageContent": "Nice, enjoy it!",
+    "lastMessageIsRead": true,
+    "openedChat": true
+  },
+  {
+    "chatId": "chat-6",
+    "userIds": [
+      "297cedd9-2382-4af8-a6f5-1ad1044d735c",
+      "7"
+    ],
+    "messages": [],
+    "lastMessageContent": "",
+    "lastMessageIsRead": true,
+    "openedChat": true
+  },
+  {
+    "chatId": "chat-7",
+    "userIds": [
+      "f9a33e18-0aab-4e85-b2c1-1d75a5407bab",
+      "1"
+    ],
+    "messages": [],
+    "lastMessageContent": "",
     "lastMessageIsRead": true,
     "openedChat": true
   }

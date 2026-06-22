@@ -12,9 +12,9 @@ export const MainArea = () => {
       case selectedField === "Chats":
         return <ChatsArea />;
       case /^chat\/:[^:]+$/.test(selectedField): {
-        const chatId: string = selectedField.split("/:")[1] ?? "";
+        const chat_id: string = selectedField.split("/:")[1] ?? "";
 
-        if (chatId) return <ChatWindow chatId={chatId} />;
+        if (chat_id) return <ChatWindow chat_id={chat_id} />;
         return;
       }
       default:

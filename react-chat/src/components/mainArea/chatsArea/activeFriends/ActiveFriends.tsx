@@ -11,9 +11,9 @@ export const ActiveFriends = ({ users }: ActiveFriendsProps) => {
       {users.length !== 0 && (
         <div className="activeFriends__wrapper">
           {users
-            .filter((user) => user.active)
+            .filter((user) => user.is_active)
             .map((user) => (
-              <UserCard key={user.id} user={user} includeName={true} />
+              <UserCard key={user.user_id} user={user} includeName={true} />
             ))}
         </div>
       )}

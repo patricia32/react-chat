@@ -10,12 +10,13 @@ interface UserCardProps {
 }
 export const UserCard = ({ user, includeName = false }: UserCardProps) => {
   const openChat = async () => {
-    const chatId = await getChatIdByUserIds(user.id);
+    const chatId = await getChatIdByUserIds(user.user_id);
 
-    if (chatId) redirectToChat(chatId, user.id);
-    else {
-      const newChatId = await createNewChat([loggedUser.id, user.id]);
-      redirectToChat(newChatId, user.id);
+    if (chatId) {
+      redirectToChat(chatId, user.user_id);
+    } else {
+      const newChatId = await createNewChat([loggedUser.user_id, user.user_id]);
+      redirectToChat(newChatId, user.user_id);
     }
   };
 
@@ -29,7 +30,7 @@ export const UserCard = ({ user, includeName = false }: UserCardProps) => {
       <div className="userCard__container">
         <img
           className="userCard__container-image"
-          src={`usersPhotos/${user.id}.png`}
+          src={`usersPhotos/${user.user_id}.png`}
           onError={(e) => {
             e.currentTarget.src = "/usersPhotos/default.png";
           }}
@@ -37,7 +38,7 @@ export const UserCard = ({ user, includeName = false }: UserCardProps) => {
         />
       </div>
       <span
-        className={`userCard__status ${user.active ? "active" : "offline"}`}
+        className={`userCard__status ${user.is_active ? "active" : "offline"}`}
       ></span>
       {includeName && <div className="userCard-name">{user.name}</div>}
     </button>

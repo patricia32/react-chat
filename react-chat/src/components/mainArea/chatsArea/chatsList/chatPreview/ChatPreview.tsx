@@ -2,18 +2,20 @@ import "./ChatPreview.scss";
 import type { ChatPreviewType } from "../../../../../models/chat";
 import { UserCard } from "../../../userCard/UserCard";
 import { UserSeenBullet } from "../../../userSeenBullet/UserSeenBullet";
-import { getSecondUser, redirectToChat } from "../../../../../utils/functions";
+import { redirectToChat } from "../../../../../utils/functions";
 import { useEffect, useState } from "react";
 import type { User } from "../../../../../models/user";
+import { loggedUser } from "../../../../../mocks/loggedUser";
+import { getUserByIdAPI } from "../../../../../APIs/APIs";
 
 interface ChatPreviewProps {
   chat: ChatPreviewType;
 }
 export const ChatPreview = ({ chat }: ChatPreviewProps) => {
   const [secondUser, setSecondUser] = useState<User>({
-    id: "",
+    user_id: "",
     name: "",
-    active: false,
+    is_active: false,
   });
   const [secondUserError, setSecondUserError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -24,7 +26,11 @@ export const ChatPreview = ({ chat }: ChatPreviewProps) => {
         setLoading(true);
         setSecondUserError("");
 
-        const data = await getSecondUser(chat.userIds);
+        let data;
+        if (loggedUser.user_id === chat.user1_id)
+          data = await getUserByIdAPI(chat.user2_id);
+        else data = await getUserByIdAPI(chat.user1_id);
+
         if (!data) return;
         setSecondUser(data);
       } catch (err) {
@@ -35,7 +41,7 @@ export const ChatPreview = ({ chat }: ChatPreviewProps) => {
     };
 
     fetchData();
-  }, [chat.userIds, chat.chatId]);
+  }, [chat.chat_id, chat.user1_id, chat.user2_id]);
 
   const displayMessagePreview = () => {
     return (
@@ -44,22 +50,24 @@ export const ChatPreview = ({ chat }: ChatPreviewProps) => {
         <button
           className="chatPreview__details clickable"
           onClick={() => {
-            redirectToChat(chat.chatId, secondUser.id);
+            redirectToChat(chat.chat_id, secondUser.user_id);
           }}
         >
           <div className={`chatPreview__details__left `}>
             <div
-              className={`chatPreview__details__left-name ${!chat.openedChat ? "highlight-name" : ""}`}
+              className={`chatPreview__details__left-name ${!chat.is_open ? "highlight-name" : ""}`}
             >
               {secondUser.name}
             </div>
             <div
-              className={`chatPreview__details__left-message ${!chat.openedChat ? "highlight-message" : ""}`}
+              className={`chatPreview__details__left-message ${!chat.is_open ? "highlight-message" : ""}`}
             >
-              {chat.lastMessageContent}
+              {chat.last_message_content}
             </div>
           </div>
-          {chat.lastMessageIsRead && <UserSeenBullet userId={secondUser.id} />}
+          {chat.last_message_is_read && (
+            <UserSeenBullet userId={secondUser.user_id} />
+          )}
         </button>
       </div>
     );

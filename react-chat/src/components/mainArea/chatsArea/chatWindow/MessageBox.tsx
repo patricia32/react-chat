@@ -10,7 +10,7 @@ interface MessageProps {
 }
 export const MessageBox = ({ message }: MessageProps) => {
   const getMessageTime = () => {
-    const createdAt = new Date(message.createdAt);
+    const createdAt = new Date(message.created_at);
     const hours = createdAt.getHours();
     const minutes = createdAt.getMinutes();
     return `${hours}:${minutes.toString().padStart(2, "0")}`;
@@ -18,19 +18,19 @@ export const MessageBox = ({ message }: MessageProps) => {
 
   return (
     <div
-      className={`message ${message.content.length < 8 ? "short" : "long"}  ${message.senderId === loggedUser.id ? "right" : "left"}`}
+      className={`message ${message.content.length < 8 ? "short" : "long"}  ${message.sender_id === loggedUser.user_id ? "right" : "left"}`}
     >
       {message.content}
       <div className="message__info">
         <div className="message__info-time">{getMessageTime()}</div>
 
         <div>
-          {message.senderId === loggedUser.id && (
+          {message.sender_id === loggedUser.user_id && (
             <FontAwesomeIcon
               icon={faCheck}
               size="sm"
               style={{
-                color: message.isRead ? "var(--online)" : "var(--offline)",
+                color: message.is_read ? "var(--online)" : "var(--offline)",
               }}
             />
           )}

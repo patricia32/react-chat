@@ -3,12 +3,10 @@ import { loggedUser } from "../mocks/loggedUser";
 import type { User } from "../models/user";
 import { useAppStore } from "../store/appStore";
 
-export const getSecondUser = async (
-  userIds: string[],
-): Promise<User | null> => {
-  const otherUserId = userIds.find((id) => id !== loggedUser.id);
+export const getSecondUser = async (userIds: string[]): Promise<User> => {
+  const otherUserId = userIds.find((id) => id !== loggedUser.user_id);
 
-  if (!otherUserId) return null;
+  if (!otherUserId) throw new Error("Could not get the second user id");
 
   try {
     return await getUserByIdAPI(otherUserId);

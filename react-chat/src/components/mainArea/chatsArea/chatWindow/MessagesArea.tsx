@@ -19,22 +19,22 @@ export const MessagesArea = ({ messages }: MessagesAreaProps) => {
   return (
     <div className="messages" ref={messagesRef}>
       {messages.map((message, index) => {
-        const currentDate = new Date(message.createdAt);
+        const currentDate = new Date(message.created_at);
 
         const previousMessage = messages[index - 1];
         const previousDate = previousMessage
-          ? new Date(previousMessage.createdAt)
+          ? new Date(previousMessage.created_at)
           : null;
 
         const showDate =
           !previousDate ||
           previousDate.toDateString() !== currentDate.toDateString();
         return (
-          <React.Fragment key={message.messageId}>
+          <React.Fragment key={message.message_id}>
             <div className="messages-date">
-              {showDate && formatMessageDate(message.createdAt)}
+              {showDate && formatMessageDate(message.created_at)}
             </div>
-            <MessageBox key={message.messageId} message={message} />
+            <MessageBox key={message.message_id} message={message} />
           </React.Fragment>
         );
       })}
