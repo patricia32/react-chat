@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import type { User } from "../../../../../models/user";
 import { loggedUser } from "../../../../../mocks/loggedUser";
 import { getUserByIdAPI } from "../../../../../APIs/APIs";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface ChatPreviewProps {
   chat: ChatPreviewType;
@@ -74,9 +76,13 @@ export const ChatPreview = ({ chat }: ChatPreviewProps) => {
             <div>
               {!!(
                 chat.last_message_sender_id === loggedUser.user_id &&
-                !!chat.is_open &&
-                chat.last_message_is_read
-              ) && <UserSeenBullet userId={secondUser.user_id} />}
+                !!chat.is_open
+              ) &&
+                (chat.last_message_is_read ? (
+                  <UserSeenBullet userId={secondUser.user_id} />
+                ) : (
+                  <FontAwesomeIcon icon={faCircleCheck} />
+                ))}
             </div>
           </div>
         </button>
