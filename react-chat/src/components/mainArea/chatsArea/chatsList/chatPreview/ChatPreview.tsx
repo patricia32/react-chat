@@ -15,7 +15,6 @@ interface ChatPreviewProps {
   chat: ChatPreviewType;
 }
 export const ChatPreview = ({ chat }: ChatPreviewProps) => {
-  console.log(chat);
   const [secondUser, setSecondUser] = useState<User>({
     user_id: "",
     name: "",
@@ -73,10 +72,11 @@ export const ChatPreview = ({ chat }: ChatPreviewProps) => {
           <div className="chatPreview__details__right">
             <div>{formatChatPreviewDate(chat.last_message_at)}</div>
             <div>
-              {chat.last_message_sender_id !== loggedUser.user_id &&
-                chat.last_message_is_read && (
-                  <UserSeenBullet userId={secondUser.user_id} />
-                )}
+              {!!(
+                chat.last_message_sender_id === loggedUser.user_id &&
+                !!chat.is_open &&
+                chat.last_message_is_read
+              ) && <UserSeenBullet userId={secondUser.user_id} />}
             </div>
           </div>
         </button>

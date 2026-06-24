@@ -55,8 +55,8 @@ const clearDb = db.transaction(() => {
 //   crypto.randomUUID(),
 //   "3a6b222d-4899-419b-acb0-e2af8964adc5", // chat id
 //   "412d0423-b106-48ea-bfc4-fcc2f2e613ac", // sender_id
-//   "Hi!",
-//   "2025-06-21T10:00:00.000Z",
+//   "How are you?",
+//   "2025-06-24T11:00:00.000Z",
 //   0,
 // );
 
@@ -67,17 +67,17 @@ const clearDb = db.transaction(() => {
 //   WHERE chat_id = ?
 // `,
 // ).run(
-//   "4fbb5a08-c5f2-4f7c-a06b-38b70d985e45",
+//   "0838bc33-5e50-4023-bdf3-ee34d1f40485",
 //   "3a6b222d-4899-419b-acb0-e2af8964adc5",
 // );
 
-// db.prepare(
-//   `
-//   UPDATE message
-//   SET created_at = ?
-//   WHERE message_id = ?
-// `,
-// ).run("2026-05-20T10:00:00.000Z", "4fbb5a08-c5f2-4f7c-a06b-38b70d985e45");
+db.prepare(
+  `
+  UPDATE message
+  SET is_read = 1
+  WHERE message_id = ?
+`,
+).run("07bc51ca-3312-4272-abf4-99f3f0e35ac7");
 
 console.log("Database initialized.");
 
