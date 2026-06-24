@@ -66,14 +66,18 @@ export const ChatPreview = ({ chat }: ChatPreviewProps) => {
             <div
               className={`chatPreview__details__left-message ${!chat.is_open ? "highlight-message" : ""}`}
             >
+              {chat.last_message_sender_id === loggedUser.user_id && "You: "}
               {chat.last_message_content}
             </div>
           </div>
           <div className="chatPreview__details__right">
             <div>{formatChatPreviewDate(chat.last_message_at)}</div>
-            {chat.last_message_is_read && (
-              <UserSeenBullet userId={secondUser.user_id} />
-            )}
+            <div>
+              {chat.last_message_sender_id !== loggedUser.user_id &&
+                chat.last_message_is_read && (
+                  <UserSeenBullet userId={secondUser.user_id} />
+                )}
+            </div>
           </div>
         </button>
       </div>
