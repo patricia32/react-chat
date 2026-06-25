@@ -11,10 +11,12 @@ import { InfoArea } from "../infoArea/InfoArea";
 export const ChatsArea = () => {
   const [activeFriends, setActiveFriends] = useState<User[]>([]);
   const [chats, setChats] = useState<ChatPreviewType[]>([]);
+  const [searchInput, setSearchInput] = useState("");
 
   const [fetchError, setFetchError] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
 
+  console.log(searchInput);
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -56,7 +58,7 @@ export const ChatsArea = () => {
 
   return (
     <div className="chatsArea">
-      <SearchBar />
+      <SearchBar searchInput={searchInput} setSearchInput={setSearchInput} />
       <ActiveFriends users={activeFriends} />
       <ChatsList chats={chats} />
     </div>

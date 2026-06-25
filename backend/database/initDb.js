@@ -71,13 +71,13 @@ const clearDb = db.transaction(() => {
 //   "3a6b222d-4899-419b-acb0-e2af8964adc5",
 // );
 
-db.prepare(
-  `
-  UPDATE message
-  SET is_read = 1
-  WHERE message_id = ?
-`,
-).run("07bc51ca-3312-4272-abf4-99f3f0e35ac7");
+// db.prepare(
+//   `
+//   UPDATE message
+//   SET is_read = 1
+//   WHERE message_id = ?
+// `,
+// ).run("07bc51ca-3312-4272-abf4-99f3f0e35ac7");
 
 console.log("Database initialized.");
 
