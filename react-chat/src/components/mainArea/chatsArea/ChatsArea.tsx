@@ -5,22 +5,39 @@ import { ActiveFriends } from "./activeFriends/ActiveFriends";
 import { useEffect, useState } from "react";
 import type { ChatPreviewType } from "../../../models/chat";
 import type { User } from "../../../models/user";
-import { getActiveUsers, getChatPreviews } from "../../../APIs/APIs";
+import {
+  getActiveUsers,
+  getChatPreviews,
+  searchUsersAPI,
+} from "../../../APIs/APIs";
 import { InfoArea } from "../infoArea/InfoArea";
 
 export const ChatsArea = () => {
   const [activeFriends, setActiveFriends] = useState<User[]>([]);
   const [chats, setChats] = useState<ChatPreviewType[]>([]);
   const [searchInput, setSearchInput] = useState("");
+  const [usersSearch, setUsersSearch] = useState<User[]>([]);
 
-  const [fetchError, setFetchError] = useState<boolean>(false);
-  const [loading, setLoading] = useState(true);
+  const [errors, setErrors] = useState({
+    fetch: false,
+    search: false,
+  });
 
-  console.log(searchInput);
+  const [loading, setLoading] = useState({
+    fetch: true,
+    search: true,
+  });
+
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
-      setFetchError(false);
+      setLoading((prev) => ({
+        ...prev,
+        fetch: true,
+      }));
+      setErrors((prev) => ({
+        ...prev,
+        fetch: false,
+      }));
 
       Promise.all([getChatPreviews(), getActiveUsers()])
         .then(([chatPreviewsData, activeUsersData]) => {
@@ -28,17 +45,56 @@ export const ChatsArea = () => {
           setActiveFriends(activeUsersData);
         })
         .catch(() => {
-          setFetchError(true);
+          setErrors((prev) => ({
+            ...prev,
+            fetch: true,
+          }));
         })
         .finally(() => {
-          setLoading(false);
+          setLoading((prev) => ({
+            ...prev,
+            fetch: false,
+          }));
         });
     };
 
     fetchData();
   }, []);
 
-  if (loading)
+  useEffect(() => {
+    const timeout = setTimeout(async () => {
+      if (searchInput.trim().length > 0) {
+        setLoading((prev) => ({
+          ...prev,
+          search: true,
+        }));
+        setErrors((prev) => ({
+          ...prev,
+          search: false,
+        }));
+        searchUsersAPI(searchInput)
+          .then((data) => {
+            setUsersSearch(data);
+          })
+          .catch(() => {
+            setErrors((prev) => ({
+              ...prev,
+              search: true,
+            }));
+          })
+          .finally(() => {
+            setLoading((prev) => ({
+              ...prev,
+              search: false,
+            }));
+          });
+      }
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [searchInput]);
+
+  if (loading.fetch)
     return (
       <InfoArea
         imagePath="loadingIcon.png"
@@ -47,7 +103,7 @@ export const ChatsArea = () => {
       />
     );
 
-  if (fetchError)
+  if (errors.fetch)
     return (
       <InfoArea
         imagePath="errorIcon.png"
@@ -58,7 +114,13 @@ export const ChatsArea = () => {
 
   return (
     <div className="chatsArea">
-      <SearchBar searchInput={searchInput} setSearchInput={setSearchInput} />
+      <SearchBar
+        searchInput={searchInput}
+        setSearchInput={setSearchInput}
+        usersSearch={usersSearch}
+        searchLoading={loading.search}
+        searchError={errors.search}
+      />
       <ActiveFriends users={activeFriends} />
       <ChatsList chats={chats} />
     </div>

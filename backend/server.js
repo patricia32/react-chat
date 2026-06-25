@@ -366,6 +366,26 @@ app.post("/sendMessage/:chat_id", async (req, res) => {
   }
 });
 
+app.get("/user/getUsersByNameSearch/:searchInput", async (req, res) => {
+  const { searchInput } = req.params;
+  try {
+    const users = db
+      .prepare(
+        `
+        SELECT *
+        FROM users
+        WHERE name LIKE CONCAT('%', ?, '%');
+      `,
+      )
+      .all(searchInput);
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({
+      error: `Failed to fetch users search.`,
+    });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

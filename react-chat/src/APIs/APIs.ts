@@ -107,3 +107,13 @@ export const sendMessageAPI = async (
   const data: Message = await response.json();
   return data;
 };
+
+export const searchUsersAPI = async (searchInput: string): Promise<User[]> => {
+  const response = await fetch(
+    `http://localhost:3000/user/getUsersByNameSearch/${searchInput}`,
+  );
+  if (!response.ok) throw new Error("Could not fetch users search");
+
+  const data: User[] = await response.json();
+  return data;
+};
