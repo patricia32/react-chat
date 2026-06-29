@@ -1,4 +1,5 @@
 import type { User } from "../../../../models/user";
+import { openChatByUserId } from "../../../../utils/functions";
 import { UserCard } from "../../userCard/UserCard";
 import "./SearchBar.scss";
 import SearchIcon from "@mui/icons-material/Search";
@@ -17,7 +18,9 @@ export const SearchBar = ({
   searchLoading,
   searchError,
 }: SearchBarProps) => {
-  const openChat = () => {};
+  const openChat = (user_id: string) => {
+    openChatByUserId(user_id);
+  };
 
   const displaySearchDropdown = () => {
     return (
@@ -32,7 +35,7 @@ export const SearchBar = ({
               key={user.user_id}
               className="search__dropdown__user"
               onClick={() => {
-                openChat();
+                openChat(user.user_id);
               }}
             >
               <UserCard user={user} size={"sm"} />

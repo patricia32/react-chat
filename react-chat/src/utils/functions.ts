@@ -1,4 +1,9 @@
-import { getUserByIdAPI, markChatAsReadAPI } from "../APIs/APIs";
+import {
+  createNewChat,
+  getChatIdByUserIds,
+  getUserByIdAPI,
+  markChatAsReadAPI,
+} from "../APIs/APIs";
 import { loggedUser } from "../mocks/loggedUser";
 import type { User } from "../models/user";
 import { useAppStore } from "../store/appStore";
@@ -88,4 +93,15 @@ export const redirectToChat = (chatId: string, secondUserId: string) => {
     .catch((error) => {
       throw new Error(error);
     });
+};
+
+export const openChatByUserId = async (user_id: string) => {
+  const chatId = await getChatIdByUserIds(user_id);
+
+  if (chatId) {
+    redirectToChat(chatId, user_id);
+  } else {
+    const newChatId = await createNewChat([loggedUser.user_id, user_id]);
+    redirectToChat(newChatId, user_id);
+  }
 };
