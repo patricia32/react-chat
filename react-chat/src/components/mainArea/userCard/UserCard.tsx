@@ -1,7 +1,4 @@
-import { createNewChat, getChatIdByUserIds } from "../../../APIs/APIs";
-import { loggedUser } from "../../../mocks/loggedUser";
 import type { User } from "../../../models/user";
-import { redirectToChat } from "../../../utils/functions";
 import "./UserCard.scss";
 
 interface UserCardProps {
@@ -14,24 +11,8 @@ export const UserCard = ({
   includeName = false,
   size = "md",
 }: UserCardProps) => {
-  const openChat = async () => {
-    const chatId = await getChatIdByUserIds(user.user_id);
-
-    if (chatId) {
-      redirectToChat(chatId, user.user_id);
-    } else {
-      const newChatId = await createNewChat([loggedUser.user_id, user.user_id]);
-      redirectToChat(newChatId, user.user_id);
-    }
-  };
-
   return (
-    <button
-      className="userCard"
-      onClick={() => {
-        openChat();
-      }}
-    >
+    <div className="userCard">
       <div className={`userCard__container ${size}`}>
         <img
           className="userCard__container-image"
@@ -46,6 +27,6 @@ export const UserCard = ({
         className={`userCard__status ${user.is_active ? "active" : "offline"}`}
       ></span>
       {includeName && <div className="userCard-name">{user.name}</div>}
-    </button>
+    </div>
   );
 };

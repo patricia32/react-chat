@@ -17,6 +17,8 @@ export const SearchBar = ({
   searchLoading,
   searchError,
 }: SearchBarProps) => {
+  const openChat = () => {};
+
   const displaySearchDropdown = () => {
     return (
       <div className="search__dropdown">
@@ -26,7 +28,13 @@ export const SearchBar = ({
           "Something went wrong"
         ) : usersSearch.length > 0 ? (
           usersSearch.map((user) => (
-            <button className="search__dropdown__user">
+            <button
+              key={user.user_id}
+              className="search__dropdown__user"
+              onClick={() => {
+                openChat();
+              }}
+            >
               <UserCard user={user} size={"sm"} />
               <div>{user.name}</div>
             </button>

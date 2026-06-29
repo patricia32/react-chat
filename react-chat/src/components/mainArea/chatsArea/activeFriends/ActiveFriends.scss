@@ -10,6 +10,12 @@
 
     color: var(--text-secondary);
     font-size: small;
+
+    &-user {
+      border: 0;
+      font: inherit;
+      background: none;
+    }
   }
 }
 
