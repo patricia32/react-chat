@@ -7,8 +7,13 @@ import "./UserCard.scss";
 interface UserCardProps {
   user: User;
   includeName?: boolean;
+  size?: "sm" | "md";
 }
-export const UserCard = ({ user, includeName = false }: UserCardProps) => {
+export const UserCard = ({
+  user,
+  includeName = false,
+  size = "md",
+}: UserCardProps) => {
   const openChat = async () => {
     const chatId = await getChatIdByUserIds(user.user_id);
 
@@ -27,7 +32,7 @@ export const UserCard = ({ user, includeName = false }: UserCardProps) => {
         openChat();
       }}
     >
-      <div className="userCard__container">
+      <div className={`userCard__container ${size}`}>
         <img
           className="userCard__container-image"
           src={`usersPhotos/${user.user_id}.png`}
