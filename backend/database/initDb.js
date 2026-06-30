@@ -74,10 +74,10 @@ const clearDb = db.transaction(() => {
 // db.prepare(
 //   `
 //   UPDATE message
-//   SET is_read = 1
+//   SET is_read = 0
 //   WHERE message_id = ?
 // `,
-// ).run("07bc51ca-3312-4272-abf4-99f3f0e35ac7");
+// ).run("0838bc33-5e50-4023-bdf3-ee34d1f40485");
 
 console.log("Database initialized.");
 
