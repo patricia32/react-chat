@@ -1,4 +1,5 @@
 .menu {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -6,6 +7,10 @@
   height: 100%;
   padding-right: 2rem;
   border-right: 1px solid var(--border-color);
+
+  &__hamburger {
+    display: none;
+  }
 
   &__header {
     display: flex;
@@ -28,38 +33,98 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+  }
 
-    &__item {
-      font: inherit;
-      color: var(--text-primary);
-      background: transparent;
+  &__fieldsMobile {
+    display: none;
+  }
+}
 
-      padding: 0 0 0 0.5rem;
-      border-radius: 12px;
-      border: 1px solid transparent;
+.item {
+  font: inherit;
+  color: var(--text-primary);
+  background: transparent;
+
+  padding: 0 0 0 0.5rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+
+  p {
+    font-size: 0.9rem;
+  }
+}
+
+.item:hover {
+  background: var(--hover-style);
+  box-shadow: var(--box-shadow);
+  border: 1px solid var(--accent-purple-soft);
+}
+
+.item.active {
+  outline: none;
+  background-color: var(--active-bg);
+  border: 1px solid var(--accent-purple-soft);
+}
+
+@media (max-width: 992px) {
+  .menu {
+    height: fit-content;
+    padding: 0 0 1rem 0;
+
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+
+    &__hamburger {
+      width: 100%;
+      display: flex;
+      justify-content: end;
+      align-items: flex-end;
+    }
+
+    &__fields {
+      display: none;
+    }
+
+    .open {
+      display: block;
+    }
+    .close {
+      display: none;
+    }
+
+    &__fieldsMobile {
+      // left: 0;
+      top: 4.1rem;
+      width: 100%;
+      z-index: 101;
+      padding: 2rem 0;
+
+      position: absolute;
+      border-radius: 0 0 12px 12px;
+      background-color: var(--purple-800);
 
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 1rem;
+      justify-content: center;
+      gap: 0.5rem;
 
-      cursor: pointer;
-      transition: all 0.2s ease-in;
-
-      p {
-        font-size: 0.9rem;
+      .item {
+        margin: 0 auto;
+        min-width: 90%;
+        max-width: 90%;
       }
-    }
-
-    &__item:hover {
-      background: var(--hover-style);
-      box-shadow: var(--box-shadow);
-      border: 1px solid var(--accent-purple-soft);
-    }
-
-    &__item.active {
-      outline: none;
-      background-color: var(--active-bg);
-      border: 1px solid var(--accent-purple-soft);
     }
   }
 }
